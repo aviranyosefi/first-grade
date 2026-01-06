@@ -1918,13 +1918,11 @@
         function draw(e) {
             if (!isDrawing) return;
 
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+            const coords = getCanvasCoordinates(canvas, e.clientX, e.clientY);
 
             ctx.fillStyle = currentColor;
             ctx.beginPath();
-            ctx.arc(x, y, brushSize, 0, Math.PI * 2);
+            ctx.arc(coords.x, coords.y, brushSize, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -1935,11 +1933,21 @@
         function handleTouch(e) {
             e.preventDefault();
             const touch = e.touches[0];
-            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            canvas.dispatchEvent(mouseEvent);
+
+            if (e.type === 'touchstart') {
+                isDrawing = true;
+                const coords = getCanvasCoordinates(canvas, touch.clientX, touch.clientY);
+                ctx.fillStyle = currentColor;
+                ctx.beginPath();
+                ctx.arc(coords.x, coords.y, brushSize, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (e.type === 'touchmove' && isDrawing) {
+                const coords = getCanvasCoordinates(canvas, touch.clientX, touch.clientY);
+                ctx.fillStyle = currentColor;
+                ctx.beginPath();
+                ctx.arc(coords.x, coords.y, brushSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
         function clearCanvas() {
@@ -2029,8 +2037,10 @@
 
         // Matching Game
         let currentMatchingQuestion = null;
+        let lastMatchingNumber = null;
 
         function initMatching() {
+            lastMatchingNumber = null;
             generateMatchingQuestion();
         }
 
@@ -2039,11 +2049,23 @@
                 { icon: '🍎', label: 'תפוח אחד', count: 1 },
                 { icon: '🍓🍓', label: 'שתי תותים', count: 2 },
                 { icon: '⭐⭐⭐', label: 'שלושה כוכבים', count: 3 },
-                { icon: '🦋🦋', label: 'שני פרפרים', count: 2 },
-                { icon: '🍋🔷🍋', label: 'שלושה פירות', count: 3 }
+                { icon: '🦋🦋🦋🦋', label: 'ארבעה פרפרים', count: 4 },
+                { icon: '🌸🌸🌸🌸🌸', label: 'חמישה פרחים', count: 5 },
+                { icon: '🍊🍊🍊🍊🍊🍊', label: 'שישה תפוזים', count: 6 },
+                { icon: '🎈🎈🎈🎈🎈🎈🎈', label: 'שבעה בלונים', count: 7 },
+                { icon: '🔷🔷🔷🔷🔷🔷🔷🔷', label: 'שמונה יהלומים', count: 8 },
+                { icon: '🍋🍋🍋🍋🍋🍋🍋🍋🍋', label: 'תשעה לימונים', count: 9 },
+                { icon: '🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟', label: 'עשרה כוכבים', count: 10 }
             ];
 
-            currentMatchingQuestion = items[Math.floor(Math.random() * items.length)];
+            // בחר שאלה חדשה שונה מהקודמת
+            let newQuestion;
+            do {
+                newQuestion = items[Math.floor(Math.random() * items.length)];
+            } while (lastMatchingNumber !== null && newQuestion.count === lastMatchingNumber);
+
+            currentMatchingQuestion = newQuestion;
+            lastMatchingNumber = currentMatchingQuestion.count;
 
             const container = document.getElementById('matchingItems');
             container.innerHTML = `
@@ -2056,11 +2078,19 @@
             const options = document.getElementById('answerOptions');
             options.innerHTML = '';
 
-            const answers = [1, 2, 3, 4, 5].sort(() => Math.random() - 0.5).slice(0, 3);
-            if (!answers.includes(currentMatchingQuestion.count)) {
-                answers[0] = currentMatchingQuestion.count;
+            // צור 3 אפשרויות תשובה: התשובה הנכונה + 2 שגויות
+            const answers = [currentMatchingQuestion.count];
+
+            // הוסף 2 מספרים שגויים שונים
+            while (answers.length < 3) {
+                const randomNum = Math.floor(Math.random() * 10) + 1;
+                if (!answers.includes(randomNum)) {
+                    answers.push(randomNum);
+                }
             }
-            answers.sort((a, b) => a - b);
+
+            // ערבב את התשובות
+            answers.sort(() => Math.random() - 0.5);
 
             answers.forEach(num => {
                 const option = document.createElement('div');
