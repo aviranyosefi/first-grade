@@ -420,8 +420,9 @@
         }
 
         .matching-items {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -726,6 +727,13 @@
             background: #f0f4ff;
             border-style: dashed;
             border-width: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .sequence-box.empty.drag-over {
+            background: #e3f2fd;
+            border-color: #2196F3;
+            transform: scale(1.05);
         }
 
         .sequence-option {
@@ -762,25 +770,198 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
             .games-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 15px;
+            }
+
+            .game-card {
+                padding: 20px;
+            }
+
+            .game-icon {
+                font-size: 3em;
+            }
+
+            .game-title {
+                font-size: 1.3em;
+            }
+
+            .game-description {
+                font-size: 0.9em;
             }
 
             .memory-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .memory-card {
+                font-size: 2em;
             }
 
             .numbers-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .number-card {
+                padding: 15px;
+            }
+
+            .number-value {
+                font-size: 2em;
+            }
+
+            .number-word {
+                font-size: 1em;
             }
 
             .letters-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .letter-card {
+                padding: 15px;
+            }
+
+            .letter-value {
+                font-size: 2.5em;
             }
 
             .draggable-item {
                 font-size: 2em;
                 padding: 15px 20px;
+            }
+
+            #coloringCanvas {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+            }
+
+            .canvas-wrapper {
+                padding: 10px;
+            }
+
+            .color-palette {
+                gap: 5px;
+            }
+
+            .color-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            #letterWriteCanvas, #numberWriteCanvas {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 350px;
+                aspect-ratio: 1;
+            }
+
+            .sequence-box {
+                min-width: 80px;
+                min-height: 80px;
+                font-size: 2.5em;
+            }
+
+            .sequence-option {
+                min-width: 70px;
+                min-height: 70px;
+                font-size: 2.5em;
+            }
+
+            .matching-items {
+                flex-direction: column;
+            }
+
+            .matching-item {
+                padding: 20px;
+            }
+
+            .item-icon {
+                font-size: 3em;
+            }
+
+            .answer-option {
+                padding: 15px 30px;
+                font-size: 1.5em;
+            }
+
+            #dragNumberTarget, #dragLetterTarget {
+                min-height: 100px;
+                font-size: 3em;
+            }
+
+            #countObjectsDisplay {
+                font-size: 3em;
+            }
+
+            .settings-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+                top: 10px;
+                left: 10px;
+            }
+
+            .settings-content {
+                padding: 30px 20px;
+            }
+
+            .settings-content h2 {
+                font-size: 2em;
+            }
+
+            .setting-label {
+                font-size: 1.1em;
+            }
+
+            .user-stats {
+                flex-direction: column;
+                gap: 15px;
+                font-size: 1em;
+            }
+
+            .game-header h2 {
+                font-size: 2em;
+            }
+
+            .game-header h3 {
+                font-size: 1.5em;
+            }
+
+            .game-header p {
+                font-size: 1em;
+            }
+
+            .back-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .action-button {
+                padding: 10px 20px;
+                font-size: 1em;
             }
         }
     </style>
@@ -928,7 +1109,7 @@
                 <p>בחרו משחק</p>
             </div>
 
-            <div class="games-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 900px; margin: 0 auto 30px;">
+            <div class="games-grid" style="grid-template-columns: repeat(4, 1fr); max-width: 1200px; margin: 0 auto 30px;">
                 <div class="game-card blue" onclick="showNumberGame('learn')">
                     <div class="game-icon">📚</div>
                     <div class="game-title">למידת מספרים</div>
@@ -943,6 +1124,11 @@
                     <div class="game-icon">🔢</div>
                     <div class="game-title">השלמת רצף</div>
                     <div class="game-description">מצאו את המספר החסר</div>
+                </div>
+                <div class="game-card orange" onclick="showNumberGame('write')">
+                    <div class="game-icon">✍️</div>
+                    <div class="game-title">כתיבת מספרים</div>
+                    <div class="game-description">תרגלו כתיבה על המספרים</div>
                 </div>
             </div>
 
@@ -966,6 +1152,22 @@
                 <div id="sequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 40px 0; flex-wrap: wrap;"></div>
                 <div id="sequenceOptions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;"></div>
             </div>
+
+            <div id="numberWriteMode" style="display: none;">
+                <div class="game-header">
+                    <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת מספרים</h3>
+                    <p id="currentWriteNumber" style="font-size: 3em; margin: 20px 0;"></p>
+                </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <canvas id="numberWriteCanvas" width="500" height="500" style="border: 4px solid #667eea; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                    <button class="action-button" onclick="clearNumberCanvas()">🗑️ נקה</button>
+                    <button class="action-button" onclick="nextNumber()">➡️ מספר הבא</button>
+                    <button class="action-button" onclick="previousNumber()">⬅️ מספר קודם</button>
+                </div>
+                <div id="numberNavigation" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
+            </div>
         </div>
     </div>
 
@@ -979,7 +1181,7 @@
                 <p>בחרו משחק</p>
             </div>
 
-            <div class="games-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 900px; margin: 0 auto 30px;">
+            <div class="games-grid" style="grid-template-columns: repeat(4, 1fr); max-width: 1200px; margin: 0 auto 30px;">
                 <div class="game-card orange" onclick="showLetterGame('learn')">
                     <div class="game-icon">📚</div>
                     <div class="game-title">למידת אותיות</div>
@@ -994,6 +1196,11 @@
                     <div class="game-icon">🔤</div>
                     <div class="game-title">השלמת רצף</div>
                     <div class="game-description">מצאו את האות החסרה</div>
+                </div>
+                <div class="game-card purple" onclick="showLetterGame('write')">
+                    <div class="game-icon">✍️</div>
+                    <div class="game-title">כתיבת אותיות</div>
+                    <div class="game-description">תרגלו כתיבה על האותיות</div>
                 </div>
             </div>
 
@@ -1015,6 +1222,22 @@
                 </div>
                 <div id="letterSequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 40px 0; flex-wrap: wrap;"></div>
                 <div id="letterSequenceOptions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;"></div>
+            </div>
+
+            <div id="letterWriteMode" style="display: none;">
+                <div class="game-header">
+                    <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת אותיות</h3>
+                    <p id="currentWriteLetter" style="font-size: 3em; margin: 20px 0;"></p>
+                </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <canvas id="letterWriteCanvas" width="500" height="500" style="border: 4px solid #667eea; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                    <button class="action-button" onclick="clearLetterCanvas()">🗑️ נקה</button>
+                    <button class="action-button" onclick="nextLetter()">➡️ אות הבאה</button>
+                    <button class="action-button" onclick="previousLetter()">⬅️ אות קודמת</button>
+                </div>
+                <div id="letterNavigation" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto;"></div>
             </div>
         </div>
     </div>
@@ -1100,9 +1323,27 @@
     </div>
 
     <script>
-        // Settings
-        let soundEnabled = true;
-        let musicEnabled = false;
+        // Settings - Load from localStorage
+        let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+        let musicEnabled = localStorage.getItem('musicEnabled') === 'true';
+
+        // Initialize UI based on saved settings
+        window.addEventListener('DOMContentLoaded', () => {
+            const soundToggle = document.getElementById('soundToggle');
+            const musicToggle = document.getElementById('musicToggle');
+
+            if (soundEnabled) {
+                soundToggle.classList.add('active');
+            } else {
+                soundToggle.classList.remove('active');
+            }
+
+            if (musicEnabled) {
+                musicToggle.classList.add('active');
+            } else {
+                musicToggle.classList.remove('active');
+            }
+        });
 
         function openSettings() {
             document.getElementById('settingsModal').classList.add('active');
@@ -1120,6 +1361,7 @@
 
         function toggleSound() {
             soundEnabled = !soundEnabled;
+            localStorage.setItem('soundEnabled', soundEnabled);
             const toggle = document.getElementById('soundToggle');
 
             if (soundEnabled) {
@@ -1138,6 +1380,7 @@
 
         function toggleMusic() {
             musicEnabled = !musicEnabled;
+            localStorage.setItem('musicEnabled', musicEnabled);
             const toggle = document.getElementById('musicToggle');
 
             if (musicEnabled) {
@@ -1572,6 +1815,7 @@
             document.getElementById('letterLearnMode').style.display = mode === 'learn' ? 'block' : 'none';
             document.getElementById('letterDragMode').style.display = mode === 'drag' ? 'block' : 'none';
             document.getElementById('letterSequenceMode').style.display = mode === 'sequence' ? 'block' : 'none';
+            document.getElementById('letterWriteMode').style.display = mode === 'write' ? 'block' : 'none';
 
             if (mode === 'learn') {
                 initLetters();
@@ -1579,6 +1823,8 @@
                 initLetterDragGame();
             } else if (mode === 'sequence') {
                 initLetterSequenceGame();
+            } else if (mode === 'write') {
+                initLetterWriteGame();
             }
         }
 
@@ -1703,6 +1949,7 @@
             document.getElementById('numberLearnMode').style.display = mode === 'learn' ? 'block' : 'none';
             document.getElementById('numberCountMode').style.display = mode === 'count' ? 'block' : 'none';
             document.getElementById('numberSequenceMode').style.display = mode === 'sequence' ? 'block' : 'none';
+            document.getElementById('numberWriteMode').style.display = mode === 'write' ? 'block' : 'none';
 
             if (mode === 'learn') {
                 initNumbers();
@@ -1710,6 +1957,8 @@
                 initNumberCountGame();
             } else if (mode === 'sequence') {
                 initNumberSequenceGame();
+            } else if (mode === 'write') {
+                initNumberWriteGame();
             }
         }
 
@@ -1837,8 +2086,16 @@
 
             sequence.forEach((num, index) => {
                 const box = document.createElement('div');
-                box.className = 'sequence-box' + (index === missingNumberIndex ? ' empty' : '');
+                box.className = 'sequence-box' + (index === missingNumberIndex ? ' empty drop-zone' : '');
                 box.textContent = index === missingNumberIndex ? '' : num;
+
+                // הוסף event listeners לתיבה הריקה
+                if (index === missingNumberIndex) {
+                    box.addEventListener('dragover', handleSequenceDragOver);
+                    box.addEventListener('drop', handleNumberSequenceDrop);
+                    box.addEventListener('dragleave', handleSequenceDragLeave);
+                }
+
                 display.appendChild(box);
             });
 
@@ -1863,32 +2120,62 @@
                 const option = document.createElement('div');
                 option.className = 'sequence-option';
                 option.textContent = num;
-                option.onclick = () => checkNumberSequence(num, option);
+                option.draggable = true;
+                option.dataset.number = num;
+
+                option.addEventListener('dragstart', handleSequenceDragStart);
+                option.addEventListener('dragend', handleDragEnd);
+
                 optionsContainer.appendChild(option);
             });
         }
 
-        function checkNumberSequence(selected, element) {
-            if (selected === currentNumberSequence.missing) {
-                element.classList.add('correct-answer');
+        function handleSequenceDragStart(e) {
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', e.currentTarget.dataset.number || e.currentTarget.dataset.letter);
+        }
+
+        function handleSequenceDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleSequenceDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleNumberSequenceDrop(e) {
+            e.preventDefault();
+            const target = e.currentTarget;
+            target.classList.remove('drag-over');
+
+            const droppedNumber = parseInt(e.dataTransfer.getData('text/plain'));
+
+            if (droppedNumber === currentNumberSequence.missing) {
+                // תשובה נכונה!
+                target.textContent = droppedNumber;
+                target.classList.remove('empty');
+                target.style.background = '#4CAF50';
+                target.style.color = 'white';
                 speakText('מצוין!');
 
-                // הצג את התשובה הנכונה בתיבה
-                const boxes = document.querySelectorAll('#sequenceDisplay .sequence-box');
-                boxes[missingNumberIndex].textContent = selected;
-                boxes[missingNumberIndex].classList.remove('empty');
-                boxes[missingNumberIndex].style.background = '#4CAF50';
-                boxes[missingNumberIndex].style.color = 'white';
+                // הסתר את האפשרות שנגררה
+                const draggedElement = document.querySelector('.sequence-option.dragging');
+                if (draggedElement) {
+                    draggedElement.style.opacity = '0';
+                }
 
                 setTimeout(() => {
                     generateNumberSequence();
                 }, 2000);
             } else {
-                element.classList.add('wrong-answer');
+                // תשובה שגויה
+                target.classList.add('incorrect');
                 speakText('נסו שוב');
 
                 setTimeout(() => {
-                    element.classList.remove('wrong-answer');
+                    target.classList.remove('incorrect');
                 }, 800);
             }
         }
@@ -1931,8 +2218,16 @@
 
             sequence.forEach((letter, index) => {
                 const box = document.createElement('div');
-                box.className = 'sequence-box' + (index === missingLetterIndex ? ' empty' : '');
+                box.className = 'sequence-box' + (index === missingLetterIndex ? ' empty drop-zone' : '');
                 box.textContent = index === missingLetterIndex ? '' : letter;
+
+                // הוסף event listeners לתיבה הריקה
+                if (index === missingLetterIndex) {
+                    box.addEventListener('dragover', handleSequenceDragOver);
+                    box.addEventListener('drop', handleLetterSequenceDrop);
+                    box.addEventListener('dragleave', handleSequenceDragLeave);
+                }
+
                 display.appendChild(box);
             });
 
@@ -1957,34 +2252,306 @@
                 const option = document.createElement('div');
                 option.className = 'sequence-option';
                 option.textContent = letter;
-                option.onclick = () => checkLetterSequence(letter, option);
+                option.draggable = true;
+                option.dataset.letter = letter;
+
+                option.addEventListener('dragstart', handleSequenceDragStart);
+                option.addEventListener('dragend', handleDragEnd);
+
                 optionsContainer.appendChild(option);
             });
         }
 
-        function checkLetterSequence(selected, element) {
-            if (selected === currentLetterSequence.missing) {
-                element.classList.add('correct-answer');
+        function handleLetterSequenceDrop(e) {
+            e.preventDefault();
+            const target = e.currentTarget;
+            target.classList.remove('drag-over');
+
+            const droppedLetter = e.dataTransfer.getData('text/plain');
+
+            if (droppedLetter === currentLetterSequence.missing) {
+                // תשובה נכונה!
+                target.textContent = droppedLetter;
+                target.classList.remove('empty');
+                target.style.background = '#4CAF50';
+                target.style.color = 'white';
                 speakText('מעולה!');
 
-                // הצג את התשובה הנכונה בתיבה
-                const boxes = document.querySelectorAll('#letterSequenceDisplay .sequence-box');
-                boxes[missingLetterIndex].textContent = selected;
-                boxes[missingLetterIndex].classList.remove('empty');
-                boxes[missingLetterIndex].style.background = '#4CAF50';
-                boxes[missingLetterIndex].style.color = 'white';
+                // הסתר את האפשרות שנגררה
+                const draggedElement = document.querySelector('.sequence-option.dragging');
+                if (draggedElement) {
+                    draggedElement.style.opacity = '0';
+                }
 
                 setTimeout(() => {
                     generateLetterSequence();
                 }, 2000);
             } else {
-                element.classList.add('wrong-answer');
+                // תשובה שגויה
+                target.classList.add('incorrect');
                 speakText('נסו שוב');
 
                 setTimeout(() => {
-                    element.classList.remove('wrong-answer');
+                    target.classList.remove('incorrect');
                 }, 800);
             }
+        }
+
+        // Letter Writing Game
+        let writeCanvas, writeCtx, isWriting = false;
+        let currentLetterIndex = 0;
+        const writingLetters = [
+            'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י',
+            'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
+        ];
+
+        function initLetterWriteGame() {
+            writeCanvas = document.getElementById('letterWriteCanvas');
+            writeCtx = writeCanvas.getContext('2d');
+
+            // Mouse events
+            writeCanvas.addEventListener('mousedown', startWriting);
+            writeCanvas.addEventListener('mousemove', writeOnCanvas);
+            writeCanvas.addEventListener('mouseup', stopWriting);
+            writeCanvas.addEventListener('mouseout', stopWriting);
+
+            // Touch events for mobile
+            writeCanvas.addEventListener('touchstart', handleWriteTouch);
+            writeCanvas.addEventListener('touchmove', handleWriteTouch);
+            writeCanvas.addEventListener('touchend', stopWriting);
+
+            // Create navigation buttons for all letters
+            createLetterNavigation();
+
+            // Display first letter
+            displayLetterTemplate(currentLetterIndex);
+        }
+
+        function createLetterNavigation() {
+            const nav = document.getElementById('letterNavigation');
+            nav.innerHTML = '';
+
+            writingLetters.forEach((letter, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-nav-btn';
+                btn.textContent = letter;
+                btn.style.cssText = 'background: linear-gradient(135deg, #fdeb71 0%, #f8d800 100%); border: none; border-radius: 10px; padding: 10px 15px; font-size: 1.5em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);';
+                btn.onclick = () => {
+                    currentLetterIndex = index;
+                    displayLetterTemplate(index);
+                };
+                btn.onmouseover = function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                };
+                btn.onmouseout = function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.1)';
+                };
+                nav.appendChild(btn);
+            });
+        }
+
+        function displayLetterTemplate(index) {
+            const letter = writingLetters[index];
+            document.getElementById('currentWriteLetter').textContent = letter;
+            speakText(letter);
+
+            // Clear canvas
+            writeCtx.fillStyle = 'white';
+            writeCtx.fillRect(0, 0, writeCanvas.width, writeCanvas.height);
+
+            // Draw dotted letter outline as template
+            writeCtx.font = 'bold 400px Arial';
+            writeCtx.textAlign = 'center';
+            writeCtx.textBaseline = 'middle';
+            writeCtx.lineWidth = 3;
+            writeCtx.strokeStyle = '#ccc';
+            writeCtx.setLineDash([10, 10]);
+            writeCtx.strokeText(letter, writeCanvas.width / 2, writeCanvas.height / 2);
+            writeCtx.setLineDash([]);
+        }
+
+        function startWriting(e) {
+            isWriting = true;
+            const rect = writeCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            writeCtx.beginPath();
+            writeCtx.moveTo(x, y);
+        }
+
+        function writeOnCanvas(e) {
+            if (!isWriting) return;
+
+            const rect = writeCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            writeCtx.strokeStyle = '#667eea';
+            writeCtx.lineWidth = 8;
+            writeCtx.lineCap = 'round';
+            writeCtx.lineJoin = 'round';
+            writeCtx.lineTo(x, y);
+            writeCtx.stroke();
+        }
+
+        function stopWriting() {
+            isWriting = false;
+        }
+
+        function handleWriteTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = writeCanvas.getBoundingClientRect();
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            writeCanvas.dispatchEvent(mouseEvent);
+        }
+
+        function clearLetterCanvas() {
+            displayLetterTemplate(currentLetterIndex);
+        }
+
+        function nextLetter() {
+            currentLetterIndex = (currentLetterIndex + 1) % writingLetters.length;
+            displayLetterTemplate(currentLetterIndex);
+        }
+
+        function previousLetter() {
+            currentLetterIndex = (currentLetterIndex - 1 + writingLetters.length) % writingLetters.length;
+            displayLetterTemplate(currentLetterIndex);
+        }
+
+        // Number Writing Game
+        let numberWriteCanvas, numberWriteCtx, isNumberWriting = false;
+        let currentNumberWriteIndex = 0;
+        const writingNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+        const numberWords = ['אפס', 'אחת', 'שתיים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע', 'עשר'];
+
+        function initNumberWriteGame() {
+            numberWriteCanvas = document.getElementById('numberWriteCanvas');
+            numberWriteCtx = numberWriteCanvas.getContext('2d');
+
+            // Mouse events
+            numberWriteCanvas.addEventListener('mousedown', startNumberWriting);
+            numberWriteCanvas.addEventListener('mousemove', writeOnNumberCanvas);
+            numberWriteCanvas.addEventListener('mouseup', stopNumberWriting);
+            numberWriteCanvas.addEventListener('mouseout', stopNumberWriting);
+
+            // Touch events for mobile
+            numberWriteCanvas.addEventListener('touchstart', handleNumberWriteTouch);
+            numberWriteCanvas.addEventListener('touchmove', handleNumberWriteTouch);
+            numberWriteCanvas.addEventListener('touchend', stopNumberWriting);
+
+            // Create navigation buttons for all numbers
+            createNumberNavigation();
+
+            // Display first number
+            displayNumberTemplate(currentNumberWriteIndex);
+        }
+
+        function createNumberNavigation() {
+            const nav = document.getElementById('numberNavigation');
+            nav.innerHTML = '';
+
+            writingNumbers.forEach((number, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'number-nav-btn';
+                btn.textContent = number;
+                btn.style.cssText = 'background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; border-radius: 10px; padding: 10px 15px; font-size: 1.5em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); min-width: 50px;';
+                btn.onclick = () => {
+                    currentNumberWriteIndex = index;
+                    displayNumberTemplate(index);
+                };
+                btn.onmouseover = function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                };
+                btn.onmouseout = function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.1)';
+                };
+                nav.appendChild(btn);
+            });
+        }
+
+        function displayNumberTemplate(index) {
+            const number = writingNumbers[index];
+            const numberWord = numberWords[index];
+            document.getElementById('currentWriteNumber').textContent = `${number} - ${numberWord}`;
+            speakText(numberWord);
+
+            // Clear canvas
+            numberWriteCtx.fillStyle = 'white';
+            numberWriteCtx.fillRect(0, 0, numberWriteCanvas.width, numberWriteCanvas.height);
+
+            // Draw dotted number outline as template
+            numberWriteCtx.font = 'bold 400px Arial';
+            numberWriteCtx.textAlign = 'center';
+            numberWriteCtx.textBaseline = 'middle';
+            numberWriteCtx.lineWidth = 3;
+            numberWriteCtx.strokeStyle = '#ccc';
+            numberWriteCtx.setLineDash([10, 10]);
+            numberWriteCtx.strokeText(number, numberWriteCanvas.width / 2, numberWriteCanvas.height / 2);
+            numberWriteCtx.setLineDash([]);
+        }
+
+        function startNumberWriting(e) {
+            isNumberWriting = true;
+            const rect = numberWriteCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            numberWriteCtx.beginPath();
+            numberWriteCtx.moveTo(x, y);
+        }
+
+        function writeOnNumberCanvas(e) {
+            if (!isNumberWriting) return;
+
+            const rect = numberWriteCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            numberWriteCtx.strokeStyle = '#667eea';
+            numberWriteCtx.lineWidth = 8;
+            numberWriteCtx.lineCap = 'round';
+            numberWriteCtx.lineJoin = 'round';
+            numberWriteCtx.lineTo(x, y);
+            numberWriteCtx.stroke();
+        }
+
+        function stopNumberWriting() {
+            isNumberWriting = false;
+        }
+
+        function handleNumberWriteTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = numberWriteCanvas.getBoundingClientRect();
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            numberWriteCanvas.dispatchEvent(mouseEvent);
+        }
+
+        function clearNumberCanvas() {
+            displayNumberTemplate(currentNumberWriteIndex);
+        }
+
+        function nextNumber() {
+            currentNumberWriteIndex = (currentNumberWriteIndex + 1) % writingNumbers.length;
+            displayNumberTemplate(currentNumberWriteIndex);
+        }
+
+        function previousNumber() {
+            currentNumberWriteIndex = (currentNumberWriteIndex - 1 + writingNumbers.length) % writingNumbers.length;
+            displayNumberTemplate(currentNumberWriteIndex);
         }
     </script>
 </body>
