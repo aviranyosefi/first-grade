@@ -1788,25 +1788,61 @@
         // Text to Speech - קריינות בעברית עם Web Speech API
         let voicesLoaded = false;
         let availableVoices = [];
+        let isSpeaking = false;
 
-        // טען קולות בהתחלה
+        // טען קולות בהתחלה ובכל פעם שמתעדכנים
         function loadVoices() {
-            availableVoices = speechSynthesis.getVoices();
-            if (availableVoices.length > 0) {
-                voicesLoaded = true;
-            }
+            return new Promise((resolve) => {
+                availableVoices = speechSynthesis.getVoices();
+                if (availableVoices.length > 0) {
+                    voicesLoaded = true;
+                    console.log('Voices loaded:', availableVoices.length);
+                    resolve(availableVoices);
+                } else {
+                    // אם אין קולות, נסה שוב אחרי 100ms
+                    setTimeout(() => {
+                        availableVoices = speechSynthesis.getVoices();
+                        if (availableVoices.length > 0) {
+                            voicesLoaded = true;
+                            console.log('Voices loaded (delayed):', availableVoices.length);
+                        }
+                        resolve(availableVoices);
+                    }, 100);
+                }
+            });
         }
 
-        // טען קולות כשהדף נטען
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
+        // טען קולות כשהדף נטען ובכל פעם שהם משתנים
+        if ('speechSynthesis' in window) {
+            // Chrome צריך את זה
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+
+            // טען מיד
+            loadVoices();
+
+            // טען שוב אחרי שהדף נטען (לכרום ואנדרואיד)
+            window.addEventListener('load', () => {
+                setTimeout(loadVoices, 100);
+            });
         }
-        loadVoices();
 
         function speakText(text) {
             // בדוק אם השמע מופעל
             if (!soundEnabled) {
                 return;
+            }
+
+            // בדוק אם יש תמיכה ב-Speech Synthesis
+            if (!('speechSynthesis' in window)) {
+                console.warn('Speech Synthesis לא נתמך בדפדפן זה');
+                return;
+            }
+
+            // מנע דיבור כפול
+            if (isSpeaking) {
+                speechSynthesis.cancel();
             }
 
             // עצור את כל ההשמעות הקודמות
@@ -1822,33 +1858,72 @@
             }
 
             // פונקציה לביצוע הדיבור
-            function performSpeak() {
-                const utterance = new SpeechSynthesisUtterance(text);
-
-                // טען קולות אם עדיין לא נטענו
+            async function performSpeak() {
+                // ודא שהקולות נטענו
                 if (!voicesLoaded || availableVoices.length === 0) {
-                    availableVoices = speechSynthesis.getVoices();
+                    await loadVoices();
                 }
 
+                const utterance = new SpeechSynthesisUtterance(text);
+
                 // חפש קול עברי
-                const hebrewVoice = availableVoices.find(voice =>
+                let hebrewVoice = availableVoices.find(voice =>
                     voice.lang.includes('he') || voice.lang.includes('iw')
                 );
 
+                // אם לא מצאנו קול עברי, נסה שוב לטעון
+                if (!hebrewVoice && availableVoices.length === 0) {
+                    await loadVoices();
+                    hebrewVoice = availableVoices.find(voice =>
+                        voice.lang.includes('he') || voice.lang.includes('iw')
+                    );
+                }
+
                 if (hebrewVoice) {
                     utterance.voice = hebrewVoice;
+                    console.log('Using Hebrew voice:', hebrewVoice.name);
+                } else {
+                    console.log('No Hebrew voice found, using default');
                 }
 
                 utterance.lang = 'he-IL';
-                utterance.rate = 0.8; // מעט יותר איטי לילדים
+                utterance.rate = 0.8;
                 utterance.pitch = 1.2;
                 utterance.volume = 1.0;
 
-                speechSynthesis.speak(utterance);
+                // Event listeners לטיפול בשגיאות
+                utterance.onstart = () => {
+                    isSpeaking = true;
+                };
+
+                utterance.onend = () => {
+                    isSpeaking = false;
+                };
+
+                utterance.onerror = (event) => {
+                    console.error('Speech error:', event.error);
+                    isSpeaking = false;
+
+                    // אם יש שגיאה, נסה שוב פעם אחת
+                    if (event.error === 'not-allowed' || event.error === 'canceled') {
+                        setTimeout(() => {
+                            speechSynthesis.cancel();
+                            speechSynthesis.speak(utterance);
+                        }, 100);
+                    }
+                };
+
+                // דבר!
+                try {
+                    speechSynthesis.speak(utterance);
+                } catch (error) {
+                    console.error('Speech failed:', error);
+                    isSpeaking = false;
+                }
             }
 
-            // חכה רגע קטן כדי לוודא שהקולות נטענו
-            setTimeout(performSpeak, 100);
+            // הפעל את הדיבור
+            performSpeak();
         }
 
         // Coloring Page
@@ -2053,8 +2128,8 @@
                 { icon: '🌸🌸🌸🌸🌸', label: 'חמישה פרחים', count: 5 },
                 { icon: '🍊🍊🍊🍊🍊🍊', label: 'שישה תפוזים', count: 6 },
                 { icon: '🎈🎈🎈🎈🎈🎈🎈', label: 'שבעה בלונים', count: 7 },
-                { icon: '🔷🔷🔷🔷🔷🔷🔷🔷', label: 'שמונה יהלומים', count: 8 },
-                { icon: '🍋🍋🍋🍋🍋🍋🍋🍋🍋', label: 'תשעה לימונים', count: 9 },
+                { icon: '🍋🍋🍋🍋🍋🍋🍋🍋', label: 'שמונה לימונים', count: 8 },
+                { icon: '🔷🔷🔷🔷🔷🔷🔷🔷🔷', label: 'תשעה יהלומים', count: 9 },
                 { icon: '🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟', label: 'עשרה כוכבים', count: 10 }
             ];
 
