@@ -15,7 +15,9 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            height: 100vh;
             padding: 20px;
+            overflow: hidden;
         }
 
         .container {
@@ -25,6 +27,8 @@
             border-radius: 30px;
             padding: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
         }
 
         h1 {
@@ -66,6 +70,18 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
+        }
+
+        .games-grid.hidden {
+            display: none;
+        }
+
+        .sub-game-mode {
+            display: none;
+        }
+
+        .sub-game-mode.active {
+            display: block;
         }
 
         .game-card {
@@ -1133,10 +1149,12 @@
             </div>
 
             <div id="numberLearnMode" style="display: none;">
+                <button class="back-button" onclick="backToNumberGames()">← חזרה למשחקי מספרים</button>
                 <div class="numbers-grid" id="numbersGrid"></div>
             </div>
 
             <div id="numberCountMode" style="display: none;">
+                <button class="back-button" onclick="backToNumberGames()">← חזרה למשחקי מספרים</button>
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">כמה יש?</h3>
                 </div>
@@ -1146,6 +1164,7 @@
             </div>
 
             <div id="numberSequenceMode" style="display: none;">
+                <button class="back-button" onclick="backToNumberGames()">← חזרה למשחקי מספרים</button>
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">מצאו את המספר החסר</h3>
                 </div>
@@ -1154,6 +1173,7 @@
             </div>
 
             <div id="numberWriteMode" style="display: none;">
+                <button class="back-button" onclick="backToNumberGames()">← חזרה למשחקי מספרים</button>
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת מספרים</h3>
                     <p id="currentWriteNumber" style="font-size: 3em; margin: 20px 0;"></p>
@@ -1205,10 +1225,12 @@
             </div>
 
             <div id="letterLearnMode" style="display: none;">
+                <button class="back-button" onclick="backToLetterGames()">← חזרה למשחקי אותיות</button>
                 <div class="letters-grid" id="lettersGrid"></div>
             </div>
 
             <div id="letterDragMode" style="display: none;">
+                <button class="back-button" onclick="backToLetterGames()">← חזרה למשחקי אותיות</button>
                 <div class="game-header">
                     <h3 id="dragLetterQuestion" style="font-size: 2em; color: #667eea;"></h3>
                 </div>
@@ -1217,6 +1239,7 @@
             </div>
 
             <div id="letterSequenceMode" style="display: none;">
+                <button class="back-button" onclick="backToLetterGames()">← חזרה למשחקי אותיות</button>
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">מצאו את האות החסרה</h3>
                 </div>
@@ -1225,6 +1248,7 @@
             </div>
 
             <div id="letterWriteMode" style="display: none;">
+                <button class="back-button" onclick="backToLetterGames()">← חזרה למשחקי אותיות</button>
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת אותיות</h3>
                     <p id="currentWriteLetter" style="font-size: 3em; margin: 20px 0;"></p>
@@ -1812,20 +1836,44 @@
 
         // Letter Games
         function showLetterGame(mode) {
-            document.getElementById('letterLearnMode').style.display = mode === 'learn' ? 'block' : 'none';
-            document.getElementById('letterDragMode').style.display = mode === 'drag' ? 'block' : 'none';
-            document.getElementById('letterSequenceMode').style.display = mode === 'sequence' ? 'block' : 'none';
-            document.getElementById('letterWriteMode').style.display = mode === 'write' ? 'block' : 'none';
+            // הסתר את תפריט המשחקים
+            const lettersPage = document.getElementById('letters');
+            const gamesGrid = lettersPage.querySelector('.games-grid');
+            gamesGrid.classList.add('hidden');
 
+            // הסתר את כל המשחקים
+            document.getElementById('letterLearnMode').style.display = 'none';
+            document.getElementById('letterDragMode').style.display = 'none';
+            document.getElementById('letterSequenceMode').style.display = 'none';
+            document.getElementById('letterWriteMode').style.display = 'none';
+
+            // הצג את המשחק שנבחר
             if (mode === 'learn') {
+                document.getElementById('letterLearnMode').style.display = 'block';
                 initLetters();
             } else if (mode === 'drag') {
+                document.getElementById('letterDragMode').style.display = 'block';
                 initLetterDragGame();
             } else if (mode === 'sequence') {
+                document.getElementById('letterSequenceMode').style.display = 'block';
                 initLetterSequenceGame();
             } else if (mode === 'write') {
+                document.getElementById('letterWriteMode').style.display = 'block';
                 initLetterWriteGame();
             }
+        }
+
+        function backToLetterGames() {
+            // הצג את תפריט המשחקים
+            const lettersPage = document.getElementById('letters');
+            const gamesGrid = lettersPage.querySelector('.games-grid');
+            gamesGrid.classList.remove('hidden');
+
+            // הסתר את כל המשחקים
+            document.getElementById('letterLearnMode').style.display = 'none';
+            document.getElementById('letterDragMode').style.display = 'none';
+            document.getElementById('letterSequenceMode').style.display = 'none';
+            document.getElementById('letterWriteMode').style.display = 'none';
         }
 
         let currentLetterAnswer = null;
@@ -1946,20 +1994,44 @@
 
         // Number Games
         function showNumberGame(mode) {
-            document.getElementById('numberLearnMode').style.display = mode === 'learn' ? 'block' : 'none';
-            document.getElementById('numberCountMode').style.display = mode === 'count' ? 'block' : 'none';
-            document.getElementById('numberSequenceMode').style.display = mode === 'sequence' ? 'block' : 'none';
-            document.getElementById('numberWriteMode').style.display = mode === 'write' ? 'block' : 'none';
+            // הסתר את תפריט המשחקים
+            const numbersPage = document.getElementById('numbers');
+            const gamesGrid = numbersPage.querySelector('.games-grid');
+            gamesGrid.classList.add('hidden');
 
+            // הסתר את כל המשחקים
+            document.getElementById('numberLearnMode').style.display = 'none';
+            document.getElementById('numberCountMode').style.display = 'none';
+            document.getElementById('numberSequenceMode').style.display = 'none';
+            document.getElementById('numberWriteMode').style.display = 'none';
+
+            // הצג את המשחק שנבחר
             if (mode === 'learn') {
+                document.getElementById('numberLearnMode').style.display = 'block';
                 initNumbers();
             } else if (mode === 'count') {
+                document.getElementById('numberCountMode').style.display = 'block';
                 initNumberCountGame();
             } else if (mode === 'sequence') {
+                document.getElementById('numberSequenceMode').style.display = 'block';
                 initNumberSequenceGame();
             } else if (mode === 'write') {
+                document.getElementById('numberWriteMode').style.display = 'block';
                 initNumberWriteGame();
             }
+        }
+
+        function backToNumberGames() {
+            // הצג את תפריט המשחקים
+            const numbersPage = document.getElementById('numbers');
+            const gamesGrid = numbersPage.querySelector('.games-grid');
+            gamesGrid.classList.remove('hidden');
+
+            // הסתר את כל המשחקים
+            document.getElementById('numberLearnMode').style.display = 'none';
+            document.getElementById('numberCountMode').style.display = 'none';
+            document.getElementById('numberSequenceMode').style.display = 'none';
+            document.getElementById('numberWriteMode').style.display = 'none';
         }
 
         let currentNumberAnswer = null;
