@@ -1450,7 +1450,7 @@
             }
         }
 
-        // Text to Speech - קריינות בעברית עם Google TTS
+        // Text to Speech - קריינות בעברית עם Web Speech API
         function speakText(text) {
             // בדוק אם השמע מופעל
             if (!soundEnabled) {
@@ -1458,10 +1458,7 @@
             }
 
             // עצור את כל ההשמעות הקודמות
-            if (window.currentAudio) {
-                window.currentAudio.pause();
-                window.currentAudio = null;
-            }
+            speechSynthesis.cancel();
 
             // הוסף אפקט ויזואלי בזמן הדיבור
             const element = event?.currentTarget;
@@ -1472,41 +1469,34 @@
                 }, 300);
             }
 
-            // השתמש ב-Google Translate TTS API לקריינות עברית
-            const encodedText = encodeURIComponent(text);
-            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=he&client=tw-ob&q=${encodedText}`;
+            // פונקציה לביצוע הדיבור
+            function performSpeak() {
+                const utterance = new SpeechSynthesisUtterance(text);
+                const voices = speechSynthesis.getVoices();
 
-            const audio = new Audio(audioUrl);
-            audio.volume = 1.0;
-            audio.playbackRate = 0.9; // מעט יותר איטי לילדים
+                // חפש קול עברי
+                const hebrewVoice = voices.find(voice =>
+                    voice.lang.includes('he') || voice.lang.includes('iw')
+                );
 
-            window.currentAudio = audio;
+                if (hebrewVoice) {
+                    utterance.voice = hebrewVoice;
+                }
 
-            audio.play().catch(error => {
-                console.log('שגיאה בהשמעת שמע:', error);
-                // אם Google TTS לא עובד, נסה Text-to-Speech רגיל
-                fallbackSpeak(text);
-            });
-        }
+                utterance.lang = 'he-IL';
+                utterance.rate = 0.8; // מעט יותר איטי לילדים
+                utterance.pitch = 1.2;
+                utterance.volume = 1.0;
 
-        // גיבוי למקרה שה-API לא עובד
-        function fallbackSpeak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voices = speechSynthesis.getVoices();
-            const hebrewVoice = voices.find(voice =>
-                voice.lang.includes('he') || voice.lang.includes('iw')
-            );
-
-            if (hebrewVoice) {
-                utterance.voice = hebrewVoice;
+                speechSynthesis.speak(utterance);
             }
 
-            utterance.lang = 'he-IL';
-            utterance.rate = 0.8;
-            utterance.pitch = 1.2;
-            utterance.volume = 1.0;
-
-            speechSynthesis.speak(utterance);
+            // אם הקולות עדיין לא נטענו, חכה לאירוע
+            if (speechSynthesis.getVoices().length === 0) {
+                speechSynthesis.addEventListener('voiceschanged', performSpeak, { once: true });
+            } else {
+                performSpeak();
+            }
         }
 
         // Coloring Page
