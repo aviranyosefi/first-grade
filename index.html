@@ -980,6 +980,40 @@
                 font-size: 1em;
             }
         }
+
+        /* Printables Styles */
+        .printable-sheet {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 20px;
+                box-shadow: none;
+            }
+
+            .back-button,
+            .action-button,
+            .settings-button,
+            #sheetIndicator {
+                display: none !important;
+            }
+
+            .printable-sheet {
+                page-break-after: always;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1020,19 +1054,7 @@
         <div class="container">
             <h1>🎮 מוכנים לכיתה א'!</h1>
             <p class="subtitle">למידה משחקית והכנה מושלמת לכיתה א'</p>
-
-            <div class="user-stats">
-                <div class="stat-item">
-                    <span>👤 שלום יובל!</span>
-                </div>
-                <div class="stat-item">
-                    <span>⭐ 15</span>
-                </div>
-                <div class="stat-item">
-                    <span>🏆 2</span>
-                </div>
-            </div>
-
+          
             <h3 style="text-align: center; color: #667eea; margin-bottom: 20px; font-size: 1.5em;">בחרו משחק</h3>
 
             <div class="games-grid">
@@ -1072,13 +1094,288 @@
                     <div class="game-description">משחק זיכרון מאתגר</div>
                 </div>
             </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="action-button" onclick="showPage('printables')" style="font-size: 1.3em; padding: 20px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    🖨️ דפי פעילות להדפסה
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printables Page -->
+    <div id="printables" class="page">
+        <div class="container">
+            <button class="back-button" onclick="showPage('homepage')">← חזרה</button>
+
+            <div class="game-header">
+                <h2>🖨️ דפי פעילות להדפסה</h2>
+                <p>בחרו דף להדפסה</p>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="action-button" onclick="printCurrentSheet()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);">
+                    🖨️ הדפס דף זה
+                </button>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;">
+                <button class="action-button" onclick="previousSheet()">⬅️ דף קודם</button>
+                <span id="sheetIndicator" style="font-size: 1.3em; color: #667eea; font-weight: bold; display: flex; align-items: center;"></span>
+                <button class="action-button" onclick="nextSheet()">➡️ דף הבא</button>
+            </div>
+
+            <!-- Sheet 1: Letter Writing Practice -->
+            <div id="sheet1" class="printable-sheet" style="display: block;">
+                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 900px; margin: 0 auto;">
+                    <h2 style="text-align: center; color: #667eea; margin-bottom: 10px;">תרגול כתיבת אותיות</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">עקבו אחרי האותיות המקווקוות וכתבו בעצמכם</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">א א</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ב ב</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ג ג</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ד ד</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ה ה</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ו ו</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ז ז</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ח ח</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ט ט</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">י י</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">כ כ</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ל ל</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">מ מ</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">נ נ</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ס ס</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ע ע</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">פ פ</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">צ צ</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ק ק</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ר ר</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ש ש</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                        <div style="border: 2px solid #667eea; border-radius: 10px; padding: 15px; text-align: center;">
+                            <div style="font-size: 3em; color: #ccc; font-weight: bold; margin-bottom: 10px;">ת ת</div>
+                            <div style="border-bottom: 2px dotted #999; margin: 5px 0; height: 40px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sheet 2: Number Writing Practice -->
+            <div id="sheet2" class="printable-sheet" style="display: none;">
+                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 900px; margin: 0 auto;">
+                    <h2 style="text-align: center; color: #667eea; margin-bottom: 10px;">ספירה ומספרים</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">ספרו את האובייקטים וכתבו את המספר</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">⭐⭐⭐</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🍊🍊🍊🍊🍊🍊🍊</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🍎</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🐟🐟🐟🐟🐟🐟🐟🐟🐟</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🌸🌸🌸🌸🌸</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🍋🍋</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🎈🎈🎈🎈🎈🎈</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🌺🌺🌺🌺</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+
+                        <div style="border: 2px solid #4facfe; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 2.5em; margin-bottom: 10px;">🍓🍓🍓🍓🍓🍓🍓🍓</div>
+                            <div style="font-size: 1.2em; color: #666; margin: 10px 0;">כמה?</div>
+                            <div style="border: 2px dashed #999; border-radius: 10px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; color: #ccc;">___</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sheet 3: Shape Recognition -->
+            <div id="sheet3" class="printable-sheet" style="display: none;">
+                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 0 auto;">
+                    <h2 style="text-align: center; color: #667eea; margin-bottom: 10px;">זיהוי צורות</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">צבעו כל צורה בצבע שונה</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <div style="width: 100px; height: 100px; border: 4px solid #333; border-radius: 10px; margin: 0 auto 15px;"></div>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">ריבוע</div>
+                        </div>
+
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <div style="width: 100px; height: 100px; border: 4px solid #333; border-radius: 50%; margin: 0 auto 15px;"></div>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">עיגול</div>
+                        </div>
+
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <div style="width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 100px solid #333; margin: 0 auto 15px;"></div>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">משולש</div>
+                        </div>
+
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <svg width="100" height="100" style="margin: 0 auto 15px; display: block;">
+                                <polygon points="50,10 61,35 90,35 67,52 77,77 50,60 23,77 33,52 10,35 39,35" fill="white" stroke="#333" stroke-width="4"/>
+                            </svg>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">כוכב</div>
+                        </div>
+
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <svg width="100" height="100" style="margin: 0 auto 15px; display: block;">
+                                <path d="M50,25 C30,10 10,25 10,45 C10,70 50,90 50,90 C50,90 90,70 90,45 C90,25 70,10 50,25 Z" fill="white" stroke="#333" stroke-width="4"/>
+                            </svg>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">לב</div>
+                        </div>
+
+                        <div style="border: 2px solid #30cfd0; border-radius: 15px; padding: 30px; text-align: center;">
+                            <svg width="100" height="100" style="margin: 0 auto 15px; display: block;">
+                                <polygon points="50,10 70,40 50,70 30,40" fill="white" stroke="#333" stroke-width="4"/>
+                            </svg>
+                            <div style="font-size: 1.5em; color: #667eea; font-weight: bold;">יהלום</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sheet 4: Matching Activity -->
+            <div id="sheet4" class="printable-sheet" style="display: none;">
+                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 0 auto;">
+                    <h2 style="text-align: center; color: #667eea; margin-bottom: 10px;">התאמה</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">חברו בין האות לתמונה שמתחילה בה</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                        <div style="border: 2px solid #f093fb; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 5em; font-weight: bold; color: #667eea;">א</div>
+                            <div style="font-size: 1.2em; color: #666; margin-top: 10px;">אריה 🦁</div>
+                        </div>
+
+                        <div style="border: 2px solid #f093fb; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 5em; font-weight: bold; color: #667eea;">ב</div>
+                            <div style="font-size: 1.2em; color: #666; margin-top: 10px;">בננה 🍌</div>
+                        </div>
+
+                        <div style="border: 2px solid #f093fb; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 5em; font-weight: bold; color: #667eea;">ג</div>
+                            <div style="font-size: 1.2em; color: #666; margin-top: 10px;">גלידה 🍦</div>
+                        </div>
+
+                        <div style="border: 2px solid #f093fb; border-radius: 15px; padding: 20px; text-align: center;">
+                            <div style="font-size: 5em; font-weight: bold; color: #667eea;">ד</div>
+                            <div style="font-size: 1.2em; color: #666; margin-top: 10px;">דג 🐟</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Coloring Page -->
     <div id="coloring" class="page">
         <div class="container">
-            <button class="back-button" onclick="showPage('homepage')">← חזרה</button>
+            <button class="back-button" onclick="showPage('homepage')">← ראשי</button>
 
             <div class="game-header">
                 <h2>🎨 צביעה</h2>
@@ -1447,6 +1744,10 @@
             }
             if (pageId === 'shapes') {
                 setTimeout(() => speakText('משחק צורות. לחצו על צורה כדי לשמוע את שמה'), 300);
+            }
+            if (pageId === 'printables') {
+                updateSheetDisplay();
+                setTimeout(() => speakText('דפי פעילות להדפסה. בחרו דף ולחצו על הדפס'), 300);
             }
         }
 
@@ -2615,6 +2916,89 @@
             currentNumberWriteIndex = (currentNumberWriteIndex - 1 + writingNumbers.length) % writingNumbers.length;
             displayNumberTemplate(currentNumberWriteIndex);
         }
+
+        // Printables Page Navigation
+        let currentSheetIndex = 1;
+        const totalSheets = 4;
+
+        function updateSheetDisplay() {
+            // Hide all sheets
+            for (let i = 1; i <= totalSheets; i++) {
+                const sheet = document.getElementById('sheet' + i);
+                if (sheet) {
+                    sheet.style.display = 'none';
+                }
+            }
+
+            // Show current sheet
+            const currentSheet = document.getElementById('sheet' + currentSheetIndex);
+            if (currentSheet) {
+                currentSheet.style.display = 'block';
+            }
+
+            // Update indicator
+            const indicator = document.getElementById('sheetIndicator');
+            if (indicator) {
+                indicator.textContent = `דף ${currentSheetIndex} מתוך ${totalSheets}`;
+            }
+        }
+
+        function nextSheet() {
+            currentSheetIndex = (currentSheetIndex % totalSheets) + 1;
+            updateSheetDisplay();
+        }
+
+        function previousSheet() {
+            currentSheetIndex = currentSheetIndex - 1;
+            if (currentSheetIndex < 1) {
+                currentSheetIndex = totalSheets;
+            }
+            updateSheetDisplay();
+        }
+
+        function printCurrentSheet() {
+            // Create a print-friendly version
+            const sheet = document.getElementById('sheet' + currentSheetIndex);
+            if (!sheet) return;
+
+            // Open print dialog
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="he" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>דף פעילות ${currentSheetIndex}</title>
+                    <style>
+                        @media print {
+                            @page {
+                                size: A4;
+                                margin: 1cm;
+                            }
+                        }
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            margin: 0;
+                            padding: 20px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${sheet.innerHTML}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+            }, 250);
+        }
+
+        // Initialize sheet display when entering printables page
+        window.addEventListener('DOMContentLoaded', () => {
+            updateSheetDisplay();
+        });
     </script>
 </body>
 </html>
