@@ -791,32 +791,40 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 5px;
+                padding: 0;
+                overflow: hidden;
             }
 
             .container {
-                padding: 10px;
-                border-radius: 15px;
-                height: calc(100vh - 10px);
-                max-height: calc(100vh - 10px);
+                padding: 15px;
+                border-radius: 0;
+                height: 100vh;
+                max-height: 100vh;
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
+                max-width: 100%;
+                margin: 0;
             }
 
             .page.active {
                 display: flex;
                 flex-direction: column;
-                flex: 1;
+                height: 100%;
                 overflow: hidden;
             }
 
+            /* Homepage - scrollable grid */
             .games-grid {
                 flex: 1;
                 overflow-y: auto;
                 align-content: start;
+                grid-template-columns: 1fr !important;
+                gap: 12px;
+                margin-bottom: 0;
             }
 
+            /* Game pages - no scroll, everything fits */
             .sub-game-mode.active {
                 display: flex;
                 flex-direction: column;
@@ -824,223 +832,51 @@
                 overflow: hidden;
             }
 
-            #dragNumberOptions,
-            #dragLetterOptions,
-            #sequenceOptions {
-                overflow-y: auto !important;
+            /* Make game pages use flexbox layout */
+            .page.active > .container {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            /* Coloring and matching use flex column */
+            .coloring-container,
+            .matching-container {
                 flex: 1;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                align-items: center;
+                justify-content: flex-start;
             }
 
-            #countObjectsDisplay {
-                font-size: 2.5em !important;
-                margin: 10px 0 !important;
-                min-height: 60px !important;
-            }
-
-            #dragNumberTarget,
-            #dragLetterTarget {
-                min-height: 100px !important;
-                font-size: 3em !important;
-                margin: 10px auto !important;
-                max-width: 300px !important;
-                border-width: 3px !important;
-            }
-
-            #sequenceDisplay {
-                margin: 15px 0 !important;
-                gap: 15px !important;
-            }
-
+            /* Headers - larger */
             h1 {
-                font-size: 1.5em;
-                margin-bottom: 3px;
+                font-size: 1.8em;
+                margin-bottom: 8px;
             }
 
             .subtitle {
-                font-size: 0.85em;
+                font-size: 1em;
                 margin-bottom: 8px;
             }
 
             .user-stats {
-                padding: 8px;
-                margin-bottom: 8px;
-                font-size: 0.85em;
-                gap: 10px;
+                display: none; /* Hide on mobile to save space */
             }
 
-            .games-grid {
-                grid-template-columns: 1fr !important;
-                gap: 10px;
-                margin-bottom: 5px;
-            }
-
-            .game-card {
-                padding: 15px;
-            }
-
-            .game-icon {
-                font-size: 2em;
-                margin-bottom: 5px;
-            }
-
-            .game-title {
-                font-size: 1.1em;
-                margin-bottom: 3px;
-            }
-
-            .game-description {
-                font-size: 0.8em;
+            .game-header {
+                margin-bottom: 12px;
+                flex-shrink: 0;
             }
 
             .game-header h2 {
-                font-size: 1.2em;
+                font-size: 1.6em;
                 margin-bottom: 5px;
-            }
-
-            .game-header p {
-                font-size: 0.9em;
-            }
-
-            .memory-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-
-            .memory-card {
-                font-size: 2em;
-            }
-
-            .numbers-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-
-            .number-card {
-                padding: 15px;
-            }
-
-            .number-value {
-                font-size: 2em;
-            }
-
-            .number-word {
-                font-size: 1em;
-            }
-
-            .letters-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-
-            .letter-card {
-                padding: 15px;
-            }
-
-            .letter-value {
-                font-size: 2.5em;
-            }
-
-            .draggable-item {
-                font-size: 2em;
-                padding: 15px 20px;
-            }
-
-            #coloringCanvas {
-                width: 100%;
-                height: auto;
-                max-width: 100%;
-            }
-
-            .canvas-wrapper {
-                padding: 10px;
-            }
-
-            .color-palette {
-                gap: 5px;
-            }
-
-            .color-option {
-                width: 40px;
-                height: 40px;
-            }
-
-            #letterWriteCanvas, #numberWriteCanvas {
-                width: 100% !important;
-                height: auto !important;
-                max-width: 350px;
-                aspect-ratio: 1;
-            }
-
-            .sequence-box {
-                min-width: 80px;
-                min-height: 80px;
-                font-size: 2.5em;
-            }
-
-            .sequence-option {
-                min-width: 70px;
-                min-height: 70px;
-                font-size: 2.5em;
-            }
-
-            .matching-items {
-                flex-direction: column;
-            }
-
-            .matching-item {
-                padding: 20px;
-            }
-
-            .item-icon {
-                font-size: 3em;
-            }
-
-            .answer-option {
-                padding: 15px 30px;
-                font-size: 1.5em;
-            }
-
-            #dragNumberTarget, #dragLetterTarget {
-                min-height: 100px;
-                font-size: 3em;
-            }
-
-            #countObjectsDisplay {
-                font-size: 3em;
-            }
-
-            .settings-button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5em;
-                top: 10px;
-                left: 10px;
-            }
-
-            .settings-content {
-                padding: 30px 20px;
-            }
-
-            .settings-content h2 {
-                font-size: 2em;
-            }
-
-            .setting-label {
-                font-size: 1.1em;
-            }
-
-            .user-stats {
-                flex-direction: column;
-                gap: 15px;
-                font-size: 1em;
-            }
-
-            .game-header h2 {
-                font-size: 2em;
             }
 
             .game-header h3 {
-                font-size: 1.5em;
+                font-size: 1.3em;
             }
 
             .game-header p {
@@ -1048,13 +884,343 @@
             }
 
             .back-button {
-                padding: 12px 20px;
+                padding: 10px 20px;
                 font-size: 1em;
+                margin-bottom: 10px;
+                flex-shrink: 0;
+            }
+
+            /* Game cards on homepage - larger */
+            .game-card {
+                padding: 20px;
+            }
+
+            .game-icon {
+                font-size: 2.5em;
+                margin-bottom: 8px;
+            }
+
+            .game-title {
+                font-size: 1.3em;
+                margin-bottom: 5px;
+            }
+
+            .game-description {
+                font-size: 0.95em;
+            }
+
+            /* NUMBERS GRID - larger and fill screen */
+            .numbers-grid {
+                display: grid !important;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                flex: 1;
+                align-content: center;
+            }
+
+            .number-card {
+                padding: 12px;
+                min-height: 0;
+            }
+
+            .number-value {
+                font-size: 2em;
+                margin-bottom: 3px;
+            }
+
+            .number-word {
+                font-size: 0.9em;
+            }
+
+            .number-objects {
+                font-size: 1.2em;
+                margin-top: 3px;
+            }
+
+            /* LETTERS GRID - larger and fill screen */
+            .letters-grid {
+                display: grid !important;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 6px;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                flex: 1;
+                align-content: center;
+            }
+
+            .letter-card {
+                padding: 10px;
+                min-height: 0;
+            }
+
+            .letter-value {
+                font-size: 2em;
+            }
+
+            .letter-name {
+                font-size: 0.75em;
+                margin-top: 3px;
+            }
+
+            /* MEMORY GRID - larger */
+            .memory-grid {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                flex: 1;
+                align-content: center;
+            }
+
+            .memory-card {
+                font-size: 2.5em;
+                min-height: 0;
+            }
+
+            .memory-stats {
+                font-size: 1.1em;
+                margin-bottom: 8px;
+                flex-shrink: 0;
+            }
+
+            /* COLORING PAGE - larger */
+            .coloring-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .canvas-wrapper {
+                padding: 8px;
+                flex-shrink: 1;
+                max-width: 100%;
+                max-height: 65vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #coloringCanvas {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100%;
+                max-height: 55vh;
+                object-fit: contain;
+            }
+
+            .color-palette {
+                gap: 6px;
+                margin: 8px 0;
+                flex-shrink: 0;
+            }
+
+            .color-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .brush-sizes {
+                gap: 8px;
+                margin: 8px 0;
+                flex-shrink: 0;
+            }
+
+            .brush-size {
+                width: 40px;
+                height: 40px;
+                font-size: 0.8em;
+            }
+
+            .action-buttons {
+                gap: 8px;
+                margin-top: 8px;
+                flex-shrink: 0;
             }
 
             .action-button {
-                padding: 10px 20px;
+                padding: 10px 18px;
                 font-size: 1em;
+            }
+
+            /* SHAPES GRID */
+            .shapes-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin: 0;
+                max-width: 100%;
+                flex: 1;
+                align-content: center;
+            }
+
+            .shape-card {
+                padding: 20px;
+            }
+
+            .shape-icon {
+                font-size: 4em;
+                margin-bottom: 10px;
+            }
+
+            .shape-name {
+                font-size: 1.4em;
+            }
+
+            /* MATCHING GAME */
+            .matching-container {
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .matching-items {
+                flex-direction: row;
+                gap: 15px;
+                margin-bottom: 20px;
+                flex-shrink: 0;
+            }
+
+            .matching-item {
+                padding: 18px;
+            }
+
+            .item-icon {
+                font-size: 3.5em;
+                margin-bottom: 8px;
+            }
+
+            .item-label {
+                font-size: 1.2em;
+            }
+
+            .answer-options {
+                gap: 15px;
+                flex-shrink: 0;
+            }
+
+            .answer-option {
+                padding: 15px 30px;
+                font-size: 1.8em;
+            }
+
+            /* DRAG AND DROP GAMES */
+            #dragNumberOptions,
+            #dragLetterOptions,
+            #sequenceOptions {
+                display: flex !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+                flex-shrink: 0;
+            }
+
+            .draggable-item {
+                font-size: 2em;
+                padding: 12px 20px;
+                min-width: 60px;
+            }
+
+            #countObjectsDisplay {
+                font-size: 2.5em !important;
+                margin: 10px 0 !important;
+                min-height: 60px !important;
+                flex-shrink: 0;
+            }
+
+            #dragNumberTarget,
+            #dragLetterTarget {
+                min-height: 100px !important;
+                font-size: 3em !important;
+                margin: 10px auto !important;
+                max-width: 320px !important;
+                border-width: 3px !important;
+                flex-shrink: 0;
+            }
+
+            #sequenceDisplay {
+                margin: 12px 0 !important;
+                gap: 12px !important;
+                flex-shrink: 0;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .sequence-box {
+                min-width: 70px;
+                min-height: 70px;
+                font-size: 2.5em;
+            }
+
+            .sequence-option {
+                min-width: 65px;
+                min-height: 65px;
+                font-size: 2.2em;
+            }
+
+            /* WRITING CANVASES */
+            #letterWriteCanvas, #numberWriteCanvas {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 350px;
+                max-height: 50vh;
+                aspect-ratio: 1;
+            }
+
+            /* SETTINGS */
+            .settings-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+                top: 8px;
+                left: 8px;
+            }
+
+            .settings-content {
+                padding: 25px 15px;
+            }
+
+            .settings-content h2 {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+
+            .setting-item {
+                padding: 15px;
+                margin-bottom: 12px;
+            }
+
+            .setting-label {
+                font-size: 1em;
+            }
+
+            .toggle-switch {
+                width: 60px;
+                height: 30px;
+            }
+
+            .toggle-slider {
+                width: 24px;
+                height: 24px;
+                top: 3px;
+                left: 3px;
+            }
+
+            .toggle-switch.active .toggle-slider {
+                left: 33px;
+            }
+
+            .close-settings {
+                padding: 12px 30px;
+                font-size: 1.1em;
             }
         }
 
@@ -2150,12 +2316,12 @@
         // Numbers Page
         function initNumbers() {
             const numbers = [
-                { num: 1, word: 'אחת', emoji: '🔷' },
+                { num: 1, word: 'אחת', emoji: '🐶' },
                 { num: 2, word: 'שתיים', emoji: '🍊🍊' },
                 { num: 3, word: 'שלוש', emoji: '🍋🍋🍋' },
                 { num: 4, word: 'אַרבע', emoji: '🦋🦋🦋🦋' },
                 { num: 5, word: 'חמש', emoji: '🍓🍓🍓🍓🍓' },
-                { num: 6, word: 'שש', emoji: '🔷🔷🔷🔷🔷🔷' },
+                { num: 6, word: 'שש', emoji: '🐱🐱🐱🐱🐱🐱' },
                 { num: 7, word: 'שבע', emoji: '❤️❤️❤️❤️❤️❤️❤️' },
                 { num: 8, word: 'שמונה', emoji: '🌍🌍🌍🌍🌍🌍🌍🌍' },
                 { num: 9, word: 'תשע', emoji: '🍎🍎🍎🍎🍎🍎🍎🍎🍎' },
