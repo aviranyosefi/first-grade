@@ -796,7 +796,7 @@
             }
 
             .container {
-                padding: 15px;
+                padding: 10px;
                 border-radius: 0;
                 height: 100vh;
                 max-height: 100vh;
@@ -814,7 +814,19 @@
                 overflow: hidden;
             }
 
-            /* Homepage - scrollable grid */
+            /* Homepage - fill entire screen with equal sized cards */
+            #homepage .games-grid {
+                flex: 1;
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                grid-auto-rows: 1fr;
+                gap: 12px;
+                margin-bottom: 0;
+                align-content: stretch;
+                overflow-y: auto;
+            }
+
+            /* Other pages - scrollable grid */
             .games-grid {
                 flex: 1;
                 overflow-y: auto;
@@ -824,11 +836,31 @@
                 margin-bottom: 0;
             }
 
-            /* Game pages - no scroll, everything fits */
-            .sub-game-mode.active {
+            /* Numbers and Letters page grids - 2 columns, fill screen */
+            #numbers .games-grid:not(.hidden),
+            #letters .games-grid:not(.hidden) {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                grid-template-rows: repeat(2, 1fr);
+                height: calc(100vh - 180px);
+                gap: 12px;
+                overflow: visible;
+                align-content: stretch;
+            }
+
+            /* Center all text in game cards */
+            .game-card {
                 display: flex;
                 flex-direction: column;
-                flex: 1;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            /* Game pages - no scroll, everything fits */
+            .sub-game-mode.active {
+                display: block;
+                height: calc(100vh - 120px); /* Full height minus header and back button */
                 overflow: hidden;
             }
 
@@ -837,6 +869,12 @@
                 display: flex;
                 flex-direction: column;
                 height: 100%;
+            }
+
+            /* Numbers, Letters, Memory modes should fill available space */
+            #numberLearnMode,
+            #letterLearnMode {
+                height: calc(100vh - 140px);
             }
 
             /* Coloring and matching use flex column */
@@ -909,77 +947,85 @@
                 font-size: 0.95em;
             }
 
-            /* NUMBERS GRID - larger and fill screen */
+            /* NUMBERS GRID - fill entire screen like homepage */
             .numbers-grid {
                 display: grid !important;
                 grid-template-columns: repeat(5, 1fr);
-                gap: 8px;
-                max-width: 100%;
+                grid-template-rows: repeat(2, 1fr);
+                gap: 10px;
+                width: 100%;
+                height: 100%;
                 margin: 0;
                 padding: 0;
-                flex: 1;
-                align-content: center;
             }
 
             .number-card {
-                padding: 12px;
+                padding: 0;
                 min-height: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .number-value {
-                font-size: 2em;
-                margin-bottom: 3px;
+                font-size: 2.5em;
+                margin-bottom: 5px;
             }
 
             .number-word {
-                font-size: 0.9em;
+                font-size: 1.1em;
             }
 
             .number-objects {
-                font-size: 1.2em;
-                margin-top: 3px;
+                font-size: 1.4em;
+                margin-top: 5px;
             }
 
-            /* LETTERS GRID - larger and fill screen */
+            /* LETTERS GRID - fill entire screen like homepage */
             .letters-grid {
                 display: grid !important;
                 grid-template-columns: repeat(6, 1fr);
-                gap: 6px;
-                max-width: 100%;
+                grid-template-rows: repeat(4, 1fr);
+                gap: 8px;
+                width: 100%;
+                height: 100%;
                 margin: 0;
                 padding: 0;
-                flex: 1;
-                align-content: center;
             }
 
             .letter-card {
-                padding: 10px;
+                padding: 0;
                 min-height: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .letter-value {
-                font-size: 2em;
+                font-size: 2.2em;
             }
 
             .letter-name {
-                font-size: 0.75em;
-                margin-top: 3px;
+                font-size: 0.85em;
+                margin-top: 5px;
             }
 
-            /* MEMORY GRID - larger */
+            /* MEMORY GRID - fill entire screen like homepage */
             .memory-grid {
                 display: grid !important;
                 grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(4, 1fr);
                 gap: 10px;
-                max-width: 100%;
+                width: 100%;
+                height: calc(100% - 50px); /* Minus stats height */
                 margin: 0;
                 padding: 0;
-                flex: 1;
-                align-content: center;
             }
 
             .memory-card {
-                font-size: 2.5em;
+                font-size: 2.8em;
                 min-height: 0;
             }
 
@@ -1048,28 +1094,33 @@
                 font-size: 1em;
             }
 
-            /* SHAPES GRID */
+            /* SHAPES GRID - fill entire screen like homepage */
             .shapes-grid {
                 display: grid !important;
                 grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
                 gap: 12px;
+                width: 100%;
+                height: calc(100vh - 140px);
                 margin: 0;
-                max-width: 100%;
-                flex: 1;
-                align-content: center;
+                padding: 0;
             }
 
             .shape-card {
-                padding: 20px;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .shape-icon {
-                font-size: 4em;
-                margin-bottom: 10px;
+                font-size: 5em;
+                margin-bottom: 12px;
             }
 
             .shape-name {
-                font-size: 1.4em;
+                font-size: 1.6em;
             }
 
             /* MATCHING GAME */
