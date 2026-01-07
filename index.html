@@ -874,7 +874,7 @@
             /* Numbers, Letters, Memory modes should fill available space */
             #numberLearnMode,
             #letterLearnMode {
-                height: calc(100vh - 140px);
+                height: calc(100vh - 160px);
             }
 
             /* Coloring and matching use flex column */
@@ -972,18 +972,23 @@
 
             .number-value {
                 font-size: 2.5em;
-                margin-bottom: 5px;
+                margin-bottom: 3px;
                 line-height: 1;
-                min-height: 1em;
+                height: 1em;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0;
             }
 
             .number-word {
                 font-size: 1.1em;
                 line-height: 1.2;
-                min-height: 1.2em;
+                height: 1.3em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
             }
 
             .number-objects {
