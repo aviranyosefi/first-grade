@@ -173,31 +173,34 @@
 
         .canvas-wrapper {
             background: white;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 10px;
             display: inline-block;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
         }
 
         #coloringCanvas {
-            border: 3px solid #667eea;
-            border-radius: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
             cursor: crosshair;
+            max-width: 100%;
+            height: auto;
         }
 
         .color-palette {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 6px;
+            margin: 10px 0;
             flex-wrap: wrap;
         }
 
         .color-option {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            border: 3px solid white;
+            border: 2px solid white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -210,19 +213,19 @@
 
         .color-option.selected {
             border-color: #333;
-            transform: scale(1.3);
+            transform: scale(1.2);
         }
 
         .brush-sizes {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 10px 0;
         }
 
         .brush-size {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: #667eea;
             border: 2px solid #333;
@@ -239,23 +242,23 @@
 
         .brush-size.selected {
             background: #f5576c;
-            transform: scale(1.2);
+            transform: scale(1.15);
         }
 
         .action-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .action-button {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 12px;
-            font-size: 1.1em;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 0.95em;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -270,15 +273,15 @@
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            max-width: 800px;
-            margin: 30px auto;
+            gap: 10px;
+            max-width: 900px;
+            margin: 15px auto;
         }
 
         .number-card {
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -291,39 +294,39 @@
         }
 
         .number-value {
-            font-size: 2.5em;
+            font-size: 1.8em;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .number-word {
-            font-size: 1.2em;
+            font-size: 0.9em;
             color: #666;
         }
 
         .number-objects {
-            font-size: 1.5em;
-            margin-top: 10px;
+            font-size: 1.2em;
+            margin-top: 5px;
         }
 
         /* Memory Game Styles */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 600px;
-            margin: 30px auto;
+            gap: 10px;
+            max-width: 500px;
+            margin: 15px auto;
         }
 
         .memory-card {
             aspect-ratio: 1;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3em;
+            font-size: 2em;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -353,8 +356,8 @@
 
         .memory-stats {
             text-align: center;
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            font-size: 1.1em;
+            margin-bottom: 10px;
             color: #667eea;
         }
 
@@ -362,15 +365,15 @@
         .letters-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 15px;
+            gap: 8px;
             max-width: 900px;
-            margin: 30px auto;
+            margin: 10px auto;
         }
 
         .letter-card {
             background: linear-gradient(135deg, #fdeb71 0%, #f8d800 100%);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -383,15 +386,15 @@
         }
 
         .letter-value {
-            font-size: 3em;
+            font-size: 2em;
             font-weight: bold;
             color: #333;
         }
 
         .letter-name {
-            font-size: 1em;
+            font-size: 0.75em;
             color: #666;
-            margin-top: 5px;
+            margin-top: 3px;
         }
 
         /* Shapes Game Styles */
@@ -502,31 +505,32 @@
 
         .game-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .game-header h2 {
             color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 5px;
         }
 
         .game-header p {
             color: #666;
-            font-size: 1.2em;
+            font-size: 1em;
         }
 
         /* Draggable Items */
         .draggable-item {
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 15px;
-            padding: 20px 30px;
-            font-size: 3em;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 2em;
             font-weight: bold;
             cursor: grab;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             user-select: none;
+            touch-action: none;
         }
 
         .draggable-item:active {
@@ -725,15 +729,15 @@
 
         /* Sequence Game Styles */
         .sequence-box {
-            min-width: 120px;
-            min-height: 120px;
+            min-width: 80px;
+            min-height: 80px;
             background: white;
-            border: 4px solid #667eea;
-            border-radius: 20px;
+            border: 3px solid #667eea;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #333;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -742,7 +746,7 @@
         .sequence-box.empty {
             background: #f0f4ff;
             border-style: dashed;
-            border-width: 4px;
+            border-width: 3px;
             transition: all 0.3s ease;
         }
 
@@ -753,14 +757,14 @@
         }
 
         .sequence-option {
-            min-width: 100px;
-            min-height: 100px;
+            min-width: 70px;
+            min-height: 70px;
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3em;
+            font-size: 2em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -787,40 +791,113 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 5px;
             }
 
             .container {
-                padding: 20px;
-                border-radius: 20px;
+                padding: 10px;
+                border-radius: 15px;
+                height: calc(100vh - 10px);
+                max-height: calc(100vh - 10px);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .page.active {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                overflow: hidden;
+            }
+
+            .games-grid {
+                flex: 1;
+                overflow-y: auto;
+                align-content: start;
+            }
+
+            .sub-game-mode.active {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                overflow: hidden;
+            }
+
+            #dragNumberOptions,
+            #dragLetterOptions,
+            #sequenceOptions {
+                overflow-y: auto !important;
+                flex: 1;
+            }
+
+            #countObjectsDisplay {
+                font-size: 2.5em !important;
+                margin: 10px 0 !important;
+                min-height: 60px !important;
+            }
+
+            #dragNumberTarget,
+            #dragLetterTarget {
+                min-height: 100px !important;
+                font-size: 3em !important;
+                margin: 10px auto !important;
+                max-width: 300px !important;
+                border-width: 3px !important;
+            }
+
+            #sequenceDisplay {
+                margin: 15px 0 !important;
+                gap: 15px !important;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.5em;
+                margin-bottom: 3px;
             }
 
             .subtitle {
-                font-size: 1em;
+                font-size: 0.85em;
+                margin-bottom: 8px;
+            }
+
+            .user-stats {
+                padding: 8px;
+                margin-bottom: 8px;
+                font-size: 0.85em;
+                gap: 10px;
             }
 
             .games-grid {
                 grid-template-columns: 1fr !important;
-                gap: 15px;
+                gap: 10px;
+                margin-bottom: 5px;
             }
 
             .game-card {
-                padding: 20px;
+                padding: 15px;
             }
 
             .game-icon {
-                font-size: 3em;
+                font-size: 2em;
+                margin-bottom: 5px;
             }
 
             .game-title {
-                font-size: 1.3em;
+                font-size: 1.1em;
+                margin-bottom: 3px;
             }
 
             .game-description {
+                font-size: 0.8em;
+            }
+
+            .game-header h2 {
+                font-size: 1.2em;
+                margin-bottom: 5px;
+            }
+
+            .game-header p {
                 font-size: 0.9em;
             }
 
@@ -1418,7 +1495,7 @@
 
             <div class="coloring-container">
                 <div class="canvas-wrapper">
-                    <canvas id="coloringCanvas" width="600" height="600"></canvas>
+                    <canvas id="coloringCanvas" width="450" height="450"></canvas>
                 </div>
 
                 <div class="color-palette" id="colorPalette"></div>
@@ -1489,9 +1566,9 @@
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">כמה יש?</h3>
                 </div>
-                <div id="countObjectsDisplay" style="font-size: 4em; text-align: center; margin: 30px 0; min-height: 100px;"></div>
-                <div id="dragNumberTarget" style="min-height: 150px; background: #f0f4ff; border: 4px dashed #667eea; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 30px auto; max-width: 400px; font-size: 5em; transition: all 0.3s ease;"></div>
-                <div id="dragNumberOptions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;"></div>
+                <div id="countObjectsDisplay" style="font-size: 2.5em; text-align: center; margin: 10px 0; min-height: 60px;"></div>
+                <div id="dragNumberTarget" style="min-height: 100px; background: #f0f4ff; border: 3px dashed #667eea; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 10px auto; max-width: 300px; font-size: 3em; transition: all 0.3s ease;"></div>
+                <div id="dragNumberOptions" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px;"></div>
             </div>
 
             <div id="numberSequenceMode" style="display: none;">
@@ -1499,8 +1576,8 @@
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">מצאו את המספר החסר</h3>
                 </div>
-                <div id="sequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 40px 0; flex-wrap: wrap;"></div>
-                <div id="sequenceOptions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;"></div>
+                <div id="sequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 15px 0; flex-wrap: wrap;"></div>
+                <div id="sequenceOptions" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px;"></div>
             </div>
 
             <div id="numberWriteMode" style="display: none;">
@@ -1565,8 +1642,8 @@
                 <div class="game-header">
                     <h3 id="dragLetterQuestion" style="font-size: 2em; color: #667eea;"></h3>
                 </div>
-                <div id="dragLetterTarget" style="min-height: 150px; background: #f0f4ff; border: 4px dashed #667eea; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 30px auto; max-width: 400px; font-size: 5em; transition: all 0.3s ease;"></div>
-                <div id="dragLetterOptions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;"></div>
+                <div id="dragLetterTarget" style="min-height: 100px; background: #f0f4ff; border: 3px dashed #667eea; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 10px auto; max-width: 300px; font-size: 3em; transition: all 0.3s ease;"></div>
+                <div id="dragLetterOptions" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px;"></div>
             </div>
 
             <div id="letterSequenceMode" style="display: none;">
@@ -1789,6 +1866,9 @@
         let voicesLoaded = false;
         let availableVoices = [];
         let isSpeaking = false;
+        let speechInitialized = false;
+        let speechRetryCount = 0;
+        const MAX_SPEECH_RETRIES = 1;
 
         // טען קולות בהתחלה ובכל פעם שמתעדכנים
         function loadVoices() {
@@ -1812,6 +1892,16 @@
             });
         }
 
+        // אתחל את מערכת הקול בהקשה הראשונה (נדרש לכרום ואנדרואיד)
+        function initializeSpeech() {
+            if (speechInitialized) return;
+
+            speechSynthesis.cancel();
+            speechSynthesis.resume();
+            speechInitialized = true;
+            console.log('Speech initialized by user interaction');
+        }
+
         // טען קולות כשהדף נטען ובכל פעם שהם משתנים
         if ('speechSynthesis' in window) {
             // Chrome צריך את זה
@@ -1826,6 +1916,10 @@
             window.addEventListener('load', () => {
                 setTimeout(loadVoices, 100);
             });
+
+            // אתחל את הקול בהקשה הראשונה של המשתמש (נדרש לכרום)
+            document.addEventListener('click', initializeSpeech, { once: true });
+            document.addEventListener('touchstart', initializeSpeech, { once: true });
         }
 
         function speakText(text) {
@@ -1840,10 +1934,14 @@
                 return;
             }
 
-            // מנע דיבור כפול
+            // מנע דיבור כפול - אסור לנסות לדבר אם כבר מדברים
             if (isSpeaking) {
-                speechSynthesis.cancel();
+                console.log('Already speaking, ignoring request');
+                return;
             }
+
+            // איפוס מונה הניסיונות
+            speechRetryCount = 0;
 
             // עצור את כל ההשמעות הקודמות
             speechSynthesis.cancel();
@@ -1894,22 +1992,33 @@
                 // Event listeners לטיפול בשגיאות
                 utterance.onstart = () => {
                     isSpeaking = true;
+                    console.log('Speech started');
                 };
 
                 utterance.onend = () => {
                     isSpeaking = false;
+                    speechRetryCount = 0;
+                    console.log('Speech ended');
                 };
 
                 utterance.onerror = (event) => {
                     console.error('Speech error:', event.error);
                     isSpeaking = false;
 
-                    // אם יש שגיאה, נסה שוב פעם אחת
-                    if (event.error === 'not-allowed' || event.error === 'canceled') {
+                    // מניעת לופ אינסופי - נסה שוב רק פעם אחת ורק אם לא ניסינו כבר
+                    if (speechRetryCount < MAX_SPEECH_RETRIES &&
+                        (event.error === 'not-allowed' || event.error === 'canceled')) {
+                        speechRetryCount++;
+                        console.log(`Retrying speech (attempt ${speechRetryCount}/${MAX_SPEECH_RETRIES})`);
                         setTimeout(() => {
-                            speechSynthesis.cancel();
-                            speechSynthesis.speak(utterance);
+                            if (!isSpeaking) {
+                                speechSynthesis.cancel();
+                                speechSynthesis.speak(utterance);
+                            }
                         }, 100);
+                    } else {
+                        speechRetryCount = 0;
+                        console.log('Speech retry limit reached or permanent error');
                     }
                 };
 
@@ -1919,6 +2028,7 @@
                 } catch (error) {
                     console.error('Speech failed:', error);
                     isSpeaking = false;
+                    speechRetryCount = 0;
                 }
             }
 
@@ -2042,14 +2152,14 @@
             const numbers = [
                 { num: 1, word: 'אחת', emoji: '🔷' },
                 { num: 2, word: 'שתיים', emoji: '🍊🍊' },
-                { num: 3, word: 'שלוש', emoji: '🔷🍋🔷' },
+                { num: 3, word: 'שלוש', emoji: '🍋🍋🍋' },
                 { num: 4, word: 'אַרבע', emoji: '🦋🦋🦋🦋' },
-                { num: 5, word: 'חמש', emoji: '🍓🍓🍓' },
+                { num: 5, word: 'חמש', emoji: '🍓🍓🍓🍓🍓' },
                 { num: 6, word: 'שש', emoji: '🔷🔷🔷🔷🔷🔷' },
-                { num: 7, word: 'שבע', emoji: '❤️❤️❤️' },
-                { num: 8, word: 'שמונה', emoji: '🍎🍎🍎🍎' },
-                { num: 9, word: 'תשע', emoji: '🌍🌍' },
-                { num: 10, word: 'עשר', emoji: '🍌🍌🍊' }
+                { num: 7, word: 'שבע', emoji: '❤️❤️❤️❤️❤️❤️❤️' },
+                { num: 8, word: 'שמונה', emoji: '🌍🌍🌍🌍🌍🌍🌍🌍' },
+                { num: 9, word: 'תשע', emoji: '🍎🍎🍎🍎🍎🍎🍎🍎🍎' },
+                { num: 10, word: 'עשר', emoji: '🍌🍌🍌🍌🍌🍌🍌🍌🍌🍌' }
             ];
 
             const grid = document.getElementById('numbersGrid');
@@ -2080,16 +2190,16 @@
                 { letter: 'ז', name: 'זַיִן' },
                 { letter: 'ח', name: 'חֵית' },
                 { letter: 'ט', name: 'טֵית' },
-                { letter: 'י', name: 'יוּד' },
+                { letter: 'י', name: 'יוֹד' },
                 { letter: 'כ', name: 'כַּף' },
                 { letter: 'ל', name: 'לָמֶד' },
                 { letter: 'מ', name: 'מֵם' },
-                { letter: 'ן', name: 'נוּן' },
+                { letter: 'נ', name: 'נוּן' },
                 { letter: 'ס', name: 'סָמֶךְ' },
                 { letter: 'ע', name: 'עַיִן' },
                 { letter: 'פ', name: 'פֵּא' },
                 { letter: 'צ', name: 'צָדִי' },
-                { letter: 'ק', name: 'קוּף' },
+                { letter: 'ק', name: 'קוֹף' },
                 { letter: 'ר', name: 'רֵישׁ' },
                 { letter: 'ש', name: 'שִׁין' },
                 { letter: 'ת', name: 'תָו' }
@@ -2381,8 +2491,14 @@
                 letterDiv.draggable = true;
                 letterDiv.dataset.letter = item.letter;
 
+                // Desktop drag events
                 letterDiv.addEventListener('dragstart', handleDragStart);
                 letterDiv.addEventListener('dragend', handleDragEnd);
+
+                // Mobile touch events - גרירה מיידית
+                letterDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+                letterDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
+                letterDiv.addEventListener('touchend', handleTouchEnd, { passive: false });
 
                 optionsContainer.appendChild(letterDiv);
             });
@@ -2392,6 +2508,12 @@
             target.addEventListener('drop', handleLetterDrop);
             target.addEventListener('dragleave', handleDragLeave);
         }
+
+        // משתני עזר לגרירה במובייל
+        let touchDragElement = null;
+        let touchClone = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         function handleDragStart(e) {
             e.currentTarget.classList.add('dragging');
@@ -2436,6 +2558,128 @@
                 setTimeout(() => {
                     target.classList.remove('incorrect');
                 }, 500);
+            }
+        }
+
+        // פונקציות Touch למובייל - מאפשרות גרירה מיידית ללא לחיצה ארוכה
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchDragElement = e.currentTarget;
+
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+
+            // צור עותק ויזואלי של האלמנט
+            touchClone = touchDragElement.cloneNode(true);
+            touchClone.style.position = 'fixed';
+            touchClone.style.pointerEvents = 'none';
+            touchClone.style.zIndex = '10000';
+            touchClone.style.opacity = '0.8';
+            touchClone.style.transform = 'scale(1.1)';
+            touchClone.style.left = touch.clientX - touchDragElement.offsetWidth / 2 + 'px';
+            touchClone.style.top = touch.clientY - touchDragElement.offsetHeight / 2 + 'px';
+            document.body.appendChild(touchClone);
+
+            touchDragElement.style.opacity = '0.3';
+        }
+
+        function handleTouchMove(e) {
+            if (!touchDragElement || !touchClone) return;
+            e.preventDefault();
+
+            const touch = e.touches[0];
+            touchClone.style.left = touch.clientX - touchClone.offsetWidth / 2 + 'px';
+            touchClone.style.top = touch.clientY - touchClone.offsetHeight / 2 + 'px';
+
+            // מצא את האלמנט שמתחת למגע
+            const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropZone = elemBelow?.closest('#dragLetterTarget, #dragNumberTarget, .sequence-box.empty');
+
+            // הסר הדגשה מכל אזורי הזריקה
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+            // הוסף הדגשה לאזור הזריקה הנוכחי
+            if (dropZone) {
+                dropZone.classList.add('drag-over');
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!touchDragElement || !touchClone) return;
+            e.preventDefault();
+
+            const touch = e.changedTouches[0];
+            const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropZone = elemBelow?.closest('#dragLetterTarget, #dragNumberTarget, .sequence-box.empty');
+
+            // נקה את העותק הויזואלי
+            document.body.removeChild(touchClone);
+            touchClone = null;
+            touchDragElement.style.opacity = '1';
+
+            // הסר הדגשה
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+            // בדוק אם זרקנו על אזור תקין
+            if (dropZone) {
+                const dataType = touchDragElement.dataset.letter || touchDragElement.dataset.number;
+
+                if (dropZone.id === 'dragLetterTarget') {
+                    checkLetterAnswer(dataType, dropZone);
+                } else if (dropZone.id === 'dragNumberTarget') {
+                    checkNumberAnswer(parseInt(dataType), dropZone);
+                } else if (dropZone.classList.contains('sequence-box')) {
+                    checkSequenceAnswer(parseInt(dataType), dropZone);
+                }
+            }
+
+            touchDragElement = null;
+        }
+
+        function checkLetterAnswer(letter, target) {
+            if (letter === currentLetterAnswer.letter) {
+                target.innerHTML = letter;
+                target.classList.add('correct');
+                speakText('כל הכבוד!');
+                setTimeout(() => generateLetterQuestion(), 1500);
+            } else {
+                target.classList.add('incorrect');
+                speakText('נסו שוב');
+                setTimeout(() => target.classList.remove('incorrect'), 500);
+            }
+        }
+
+        function checkNumberAnswer(number, target) {
+            if (number === currentNumberAnswer) {
+                target.innerHTML = number;
+                target.classList.add('correct');
+                speakText('כל הכבוד!');
+                setTimeout(() => generateNumberQuestion(), 1500);
+            } else {
+                target.classList.add('incorrect');
+                speakText('נסו שוב');
+                setTimeout(() => target.classList.remove('incorrect'), 500);
+            }
+        }
+
+        function checkSequenceAnswer(number, target) {
+            if (number === currentNumberSequence.missing) {
+                target.textContent = number;
+                target.classList.remove('empty');
+                target.style.background = '#4CAF50';
+                target.style.color = 'white';
+                speakText('מצוין!');
+
+                // הסתר את האופציה
+                const option = document.querySelector(`.sequence-option[data-number="${number}"]`);
+                if (option) option.style.opacity = '0';
+
+                setTimeout(() => generateNumberSequence(), 2000);
+            } else {
+                target.classList.add('incorrect');
+                speakText('נסו שוב');
+                setTimeout(() => target.classList.remove('incorrect'), 500);
             }
         }
 
@@ -2532,8 +2776,14 @@
                 numberDiv.draggable = true;
                 numberDiv.dataset.number = num;
 
+                // Desktop drag events
                 numberDiv.addEventListener('dragstart', handleNumberDragStart);
                 numberDiv.addEventListener('dragend', handleDragEnd);
+
+                // Mobile touch events - גרירה מיידית
+                numberDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+                numberDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
+                numberDiv.addEventListener('touchend', handleTouchEnd, { passive: false });
 
                 optionsContainer.appendChild(numberDiv);
             });
@@ -2642,8 +2892,14 @@
                 option.draggable = true;
                 option.dataset.number = num;
 
+                // Desktop drag events
                 option.addEventListener('dragstart', handleSequenceDragStart);
                 option.addEventListener('dragend', handleDragEnd);
+
+                // Mobile touch events - גרירה מיידית
+                option.addEventListener('touchstart', handleTouchStart, { passive: false });
+                option.addEventListener('touchmove', handleTouchMove, { passive: false });
+                option.addEventListener('touchend', handleTouchEnd, { passive: false });
 
                 optionsContainer.appendChild(option);
             });
