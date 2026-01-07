@@ -877,6 +877,38 @@
                 height: calc(100vh - 160px);
             }
 
+            /* Memory game - compress everything */
+            #memory .back-button {
+                padding: 6px 12px;
+                font-size: 0.85em;
+                margin-bottom: 3px;
+            }
+
+            #memory .game-header {
+                margin-bottom: 3px;
+            }
+
+            #memory .game-header h2 {
+                font-size: 1.2em;
+                margin-bottom: 0;
+            }
+
+            #memory .game-header p {
+                font-size: 0.75em;
+                margin-top: 2px;
+            }
+
+            #memory .action-buttons {
+                margin-top: 2px;
+                margin-bottom: 2px;
+                flex-shrink: 0;
+            }
+
+            #memory .action-button {
+                padding: 4px 8px;
+                font-size: 0.75em;
+            }
+
             /* Coloring and matching use flex column */
             .coloring-container,
             .matching-container {
@@ -1044,21 +1076,26 @@
                 display: grid !important;
                 grid-template-columns: repeat(4, 1fr);
                 grid-template-rows: repeat(4, 1fr);
-                gap: 10px;
+                gap: 4px;
                 width: 100%;
-                height: calc(100% - 50px); /* Minus stats height */
-                margin: 0;
+                max-width: 100%;
+                margin: 0 auto;
                 padding: 0;
             }
 
             .memory-card {
-                font-size: 2.8em;
+                font-size: 1.5em;
                 min-height: 0;
+                aspect-ratio: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
             }
 
             .memory-stats {
-                font-size: 1.1em;
-                margin-bottom: 8px;
+                font-size: 0.8em;
+                margin-bottom: 2px;
                 flex-shrink: 0;
             }
 
