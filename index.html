@@ -67,9 +67,9 @@
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .games-grid.hidden {
@@ -125,18 +125,18 @@
         }
 
         .game-icon {
-            font-size: 4em;
-            margin-bottom: 15px;
-        }
-
-        .game-title {
-            font-size: 1.8em;
-            font-weight: bold;
+            font-size: 3em;
             margin-bottom: 10px;
         }
 
+        .game-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
         .game-description {
-            font-size: 1em;
+            font-size: 0.95em;
             opacity: 0.9;
         }
 
@@ -1010,11 +1010,11 @@
                 overflow: hidden;
             }
 
-            /* Homepage - fill entire screen with equal sized cards */
+            /* Homepage - 2 columns on mobile */
             #homepage .games-grid {
                 flex: 1;
                 display: grid !important;
-                grid-template-columns: 1fr !important;
+                grid-template-columns: repeat(2, 1fr) !important;
                 grid-auto-rows: 1fr;
                 gap: 12px;
                 margin-bottom: 0;
@@ -1741,10 +1741,10 @@
     <!-- Homepage -->
     <div id="homepage" class="page active">
         <div class="container">
-            <h1>🎮 מוכנים לכיתה א'!</h1>
-            <p class="subtitle">למידה משחקית והכנה מושלמת לכיתה א'</p>
-          
-            <h3 style="text-align: center; color: #667eea; margin-bottom: 20px; font-size: 1.5em;">בחרו משחק</h3>
+            <h1 style="margin-bottom: 10px;">🎮 מוכנים לכיתה א'!</h1>
+            <p class="subtitle" style="margin-bottom: 15px;">למידה משחקית והכנה מושלמת לכיתה א'</p>
+
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 15px; font-size: 1.3em;">בחרו משחק</h3>
 
             <div class="games-grid">
                 <div class="game-card pink" onclick="showPage('coloring')">
@@ -2199,19 +2199,19 @@
 
             <div id="numberWriteMode" style="display: none;">
                 <button class="back-button" onclick="backToNumberGames()">← חזרה למשחקי מספרים</button>
-                <div class="game-header">
-                    <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת מספרים</h3>
-                    <p id="currentWriteNumber" style="font-size: 3em; margin: 20px 0;"></p>
+                <div class="game-header" style="margin-bottom: 5px;">
+                    <h3 style="font-size: 1.3em; color: #667eea; margin: 0;">תרגלו כתיבת מספרים</h3>
+                    <p id="currentWriteNumber" style="font-size: 1.8em; margin: 5px 0;"></p>
                 </div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <canvas id="numberWriteCanvas" width="500" height="500" style="border: 4px solid #667eea; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
+                <div style="text-align: center; margin: 5px 0;">
+                    <canvas id="numberWriteCanvas" width="300" height="300" style="border: 3px solid #667eea; border-radius: 15px; background: white; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
                 </div>
-                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                <div style="display: flex; justify-content: center; gap: 10px; margin: 8px 0;">
                     <button class="action-button" onclick="clearNumberCanvas()">🗑️ נקה</button>
                     <button class="action-button" onclick="nextNumber()">➡️ מספר הבא</button>
                     <button class="action-button" onclick="previousNumber()">⬅️ מספר קודם</button>
                 </div>
-                <div id="numberNavigation" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
+                <div id="numberNavigation" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
             </div>
 
             <div id="numberSortMode" class="sub-game-mode" style="display: none;">
@@ -4344,7 +4344,7 @@
             numberWriteCtx.fillRect(0, 0, numberWriteCanvas.width, numberWriteCanvas.height);
 
             // Draw dotted number outline as template
-            numberWriteCtx.font = 'bold 400px Arial';
+            numberWriteCtx.font = 'bold 305px Arial';
             numberWriteCtx.textAlign = 'center';
             numberWriteCtx.textBaseline = 'middle';
             numberWriteCtx.lineWidth = 3;
