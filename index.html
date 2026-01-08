@@ -604,8 +604,8 @@
             10%, 90% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Settings Button */
-        .settings-button {
+        /* Sound Toggle Button */
+        .sound-toggle-button {
             position: fixed;
             top: 20px;
             left: 20px;
@@ -622,109 +622,13 @@
             z-index: 1000;
         }
 
-        .settings-button:hover {
-            transform: scale(1.1) rotate(90deg);
+        .sound-toggle-button:hover {
+            transform: scale(1.1);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .settings-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .settings-modal.active {
-            display: flex;
-        }
-
-        .settings-content {
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .settings-content h2 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-
-        .setting-label {
-            font-size: 1.3em;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 70px;
-            height: 35px;
-            background: #ccc;
-            border-radius: 35px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .toggle-switch.active {
-            background: #4CAF50;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            width: 27px;
-            height: 27px;
-            background: white;
-            border-radius: 50%;
-            top: 4px;
-            left: 4px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 39px;
-        }
-
-        .close-settings {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 15px;
-            font-size: 1.3em;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .close-settings:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        .sound-toggle-button.muted {
+            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
         }
 
         /* Sequence Game Styles */
@@ -1665,52 +1569,13 @@
                 min-height: 60px !important;
             }
 
-            /* SETTINGS */
-            .settings-button {
+            /* SOUND TOGGLE */
+            .sound-toggle-button {
                 width: 45px;
                 height: 45px;
                 font-size: 1.3em;
                 top: 8px;
                 left: 8px;
-            }
-
-            .settings-content {
-                padding: 25px 15px;
-            }
-
-            .settings-content h2 {
-                font-size: 1.6em;
-                margin-bottom: 20px;
-            }
-
-            .setting-item {
-                padding: 15px;
-                margin-bottom: 12px;
-            }
-
-            .setting-label {
-                font-size: 1em;
-            }
-
-            .toggle-switch {
-                width: 60px;
-                height: 30px;
-            }
-
-            .toggle-slider {
-                width: 24px;
-                height: 24px;
-                top: 3px;
-                left: 3px;
-            }
-
-            .toggle-switch.active .toggle-slider {
-                left: 33px;
-            }
-
-            .close-settings {
-                padding: 12px 30px;
-                font-size: 1.1em;
             }
         }
 
@@ -1738,7 +1603,7 @@
 
             .back-button,
             .action-button,
-            .settings-button,
+            .sound-toggle-button,
             #sheetIndicator {
                 display: none !important;
             }
@@ -1750,37 +1615,8 @@
     </style>
 </head>
 <body>
-    <!-- Settings Button -->
-    <button class="settings-button" onclick="openSettings()">⚙️</button>
-
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="settings-modal" onclick="closeSettingsOnBackdrop(event)">
-        <div class="settings-content">
-            <h2>⚙️ הגדרות</h2>
-
-            <div class="setting-item">
-                <div class="setting-label">
-                    <span>🔊</span>
-                    <span>השמעת שמע</span>
-                </div>
-                <div class="toggle-switch active" id="soundToggle" onclick="toggleSound()">
-                    <div class="toggle-slider"></div>
-                </div>
-            </div>
-
-            <div class="setting-item">
-                <div class="setting-label">
-                    <span>🎵</span>
-                    <span>מוזיקת רקע</span>
-                </div>
-                <div class="toggle-switch" id="musicToggle" onclick="toggleMusic()">
-                    <div class="toggle-slider"></div>
-                </div>
-            </div>
-
-            <button class="close-settings" onclick="closeSettings()">✓ סגור</button>
-        </div>
-    </div>
+    <!-- Sound Toggle Button -->
+    <button class="sound-toggle-button" id="soundToggleBtn" onclick="toggleSound()">🔊</button>
 
     <!-- Homepage -->
     <div id="homepage" class="page active">
@@ -2454,71 +2290,38 @@
     <script>
         // Settings - Load from localStorage
         let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-        let musicEnabled = localStorage.getItem('musicEnabled') === 'true';
 
         // Initialize UI based on saved settings
         window.addEventListener('DOMContentLoaded', () => {
-            const soundToggle = document.getElementById('soundToggle');
-            const musicToggle = document.getElementById('musicToggle');
+            const btn = document.getElementById('soundToggleBtn');
 
             if (soundEnabled) {
-                soundToggle.classList.add('active');
+                btn.classList.remove('muted');
+                btn.textContent = '🔊';
             } else {
-                soundToggle.classList.remove('active');
-            }
-
-            if (musicEnabled) {
-                musicToggle.classList.add('active');
-            } else {
-                musicToggle.classList.remove('active');
+                btn.classList.add('muted');
+                btn.textContent = '🔇';
             }
         });
-
-        function openSettings() {
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
-        }
-
-        function closeSettingsOnBackdrop(event) {
-            if (event.target.id === 'settingsModal') {
-                closeSettings();
-            }
-        }
 
         function toggleSound() {
             soundEnabled = !soundEnabled;
             localStorage.setItem('soundEnabled', soundEnabled);
-            const toggle = document.getElementById('soundToggle');
+            const btn = document.getElementById('soundToggleBtn');
 
             if (soundEnabled) {
-                toggle.classList.add('active');
+                btn.classList.remove('muted');
+                btn.textContent = '🔊';
                 speakText('השמעת שמע פועלת');
             } else {
-                toggle.classList.remove('active');
+                btn.classList.add('muted');
+                btn.textContent = '🔇';
                 // Stop any playing audio
                 if (window.currentAudio) {
                     window.currentAudio.pause();
                     window.currentAudio = null;
                 }
                 speechSynthesis.cancel();
-            }
-        }
-
-        function toggleMusic() {
-            musicEnabled = !musicEnabled;
-            localStorage.setItem('musicEnabled', musicEnabled);
-            const toggle = document.getElementById('musicToggle');
-
-            if (musicEnabled) {
-                toggle.classList.add('active');
-                // כאן אפשר להוסיף מוזיקת רקע בעתיד
-                if (soundEnabled) speakText('מוזיקת רקע הופעלה');
-            } else {
-                toggle.classList.remove('active');
-                if (soundEnabled) speakText('מוזיקת רקע כבויה');
             }
         }
 
