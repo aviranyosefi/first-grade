@@ -1640,18 +1640,7 @@
                 </div>
 
                 <div class="game-card orange" onclick="showPage('letters')">
-                    <div class="game-icon">
-                        <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#1565C0;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="15" fill="url(#blueGradient)" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
-                            <text x="50" y="65" font-size="42" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">אבג</text>
-                        </svg>
-                    </div>
+                    <div class="game-icon">🔤</div>
                     <div class="game-title">אותיות</div>
                     <div class="game-description">למדו את האלף-בית העברי</div>
                 </div>
@@ -2392,7 +2381,7 @@
             }
         }
 
-        // Text to Speech - קריינות בעברית עם Google TTS
+        // Text to Speech - קריינות בעברית
         function speakText(text) {
             // בדוק אם השמע מופעל
             if (!soundEnabled) {
@@ -2404,6 +2393,7 @@
                 window.currentAudio.pause();
                 window.currentAudio = null;
             }
+            speechSynthesis.cancel();
 
             // הוסף אפקט ויזואלי בזמן הדיבור
             const element = event?.currentTarget;
@@ -2414,41 +2404,49 @@
                 }, 300);
             }
 
-            // השתמש ב-Google Translate TTS API לקריינות עברית
-            const encodedText = encodeURIComponent(text);
-            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=he&client=tw-ob&q=${encodedText}`;
+            // זיהוי מכשיר מובייל (אייפון/אנדרואיד)
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            const audio = new Audio(audioUrl);
-            audio.volume = 1.0;
-            audio.playbackRate = 0.9;
+            if (isMobile) {
+                // במובייל - השתמש ב-Web Speech API
+                const utterance = new SpeechSynthesisUtterance(text);
+                const voices = speechSynthesis.getVoices();
+                const hebrewVoice = voices.find(voice =>
+                    voice.lang.includes('he') || voice.lang.includes('iw')
+                );
 
-            window.currentAudio = audio;
+                if (hebrewVoice) {
+                    utterance.voice = hebrewVoice;
+                }
 
-            audio.play().catch(error => {
-                console.log('שגיאה בהשמעת שמע:', error);
-                // אם Google TTS לא עובד, נסה Text-to-Speech רגיל
-                fallbackSpeak(text);
-            });
-        }
+                utterance.lang = 'he-IL';
+                utterance.rate = 0.9;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
 
-        // גיבוי למקרה שה-API לא עובד
-        function fallbackSpeak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voices = speechSynthesis.getVoices();
-            const hebrewVoice = voices.find(voice =>
-                voice.lang.includes('he') || voice.lang.includes('iw')
-            );
+                speechSynthesis.speak(utterance);
+            } else {
+                // במחשב - השתמש ב-Google TTS API
+                const encodedText = encodeURIComponent(text);
+                const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=he&client=tw-ob&q=${encodedText}`;
 
-            if (hebrewVoice) {
-                utterance.voice = hebrewVoice;
+                const audio = new Audio(audioUrl);
+                audio.volume = 1.0;
+                audio.playbackRate = 0.9;
+
+                window.currentAudio = audio;
+
+                audio.play().catch(error => {
+                    console.log('שגיאה בהשמעת Google TTS, מנסה Web Speech API:', error);
+                    // אם Google TTS לא עובד, נסה Web Speech API
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'he-IL';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 1.0;
+                    speechSynthesis.speak(utterance);
+                });
             }
-
-            utterance.lang = 'he-IL';
-            utterance.rate = 0.8;
-            utterance.pitch = 1.2;
-            utterance.volume = 1.0;
-
-            speechSynthesis.speak(utterance);
         }
 
         // Coloring Page
