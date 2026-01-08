@@ -1400,36 +1400,50 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                gap: 15px;
+                padding: 10px;
             }
 
             .matching-items {
-                flex-direction: row;
+                flex-direction: column;
                 gap: 15px;
-                margin-bottom: 20px;
+                margin-bottom: 0;
                 flex-shrink: 0;
+                width: 100%;
+                min-height: 250px;
             }
 
             .matching-item {
-                padding: 18px;
+                padding: 20px;
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+                min-height: 220px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
             .item-icon {
-                font-size: 3.5em;
-                margin-bottom: 8px;
+                font-size: 4em;
+                margin-bottom: 10px;
             }
 
             .item-label {
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
 
             .answer-options {
-                gap: 15px;
+                gap: 12px;
                 flex-shrink: 0;
+                width: 100%;
+                justify-content: center;
             }
 
             .answer-option {
-                padding: 15px 30px;
-                font-size: 1.8em;
+                padding: 18px 35px;
+                font-size: 2em;
+                min-width: 80px;
             }
 
             /* DRAG AND DROP GAMES */
@@ -1493,9 +1507,39 @@
             #letterWriteCanvas, #numberWriteCanvas {
                 width: 100% !important;
                 height: auto !important;
-                max-width: 350px;
-                max-height: 40vh;
+                max-width: 280px;
+                max-height: 280px;
                 aspect-ratio: 1;
+            }
+
+            /* Letter Write Mode - compact layout for mobile */
+            #letterWriteMode .game-header h3 {
+                font-size: 1.3em !important;
+                margin-bottom: 5px !important;
+            }
+
+            #letterWriteMode #currentWriteLetter {
+                font-size: 2em !important;
+                margin: 5px 0 !important;
+            }
+
+            #letterWriteMode > div:nth-child(3) {
+                margin-bottom: 8px !important;
+            }
+
+            #letterWriteMode > div:nth-child(4) {
+                margin-top: 8px !important;
+                gap: 8px !important;
+            }
+
+            #letterNavigation {
+                margin-top: 10px !important;
+                gap: 6px !important;
+            }
+
+            #letterNavigation button {
+                font-size: 1.3em !important;
+                padding: 8px 12px !important;
             }
 
             /* LETTER MATCHING GAME - mobile */
@@ -2295,19 +2339,19 @@
 
             <div id="letterWriteMode" style="display: none;">
                 <button class="back-button" onclick="backToLetterGames()">← חזרה למשחקי אותיות</button>
-                <div class="game-header">
-                    <h3 style="font-size: 2em; color: #667eea;">תרגלו כתיבת אותיות</h3>
-                    <p id="currentWriteLetter" style="font-size: 3em; margin: 20px 0;"></p>
+                <div class="game-header" style="margin-bottom: 5px;">
+                    <h3 style="font-size: 1.3em; color: #667eea; margin: 0;">תרגלו כתיבת אותיות</h3>
+                    <p id="currentWriteLetter" style="font-size: 1.8em; margin: 5px 0;"></p>
                 </div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <canvas id="letterWriteCanvas" width="500" height="500" style="border: 4px solid #667eea; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
+                <div style="text-align: center; margin: 5px 0;">
+                    <canvas id="letterWriteCanvas" width="300" height="300" style="border: 3px solid #667eea; border-radius: 15px; background: white; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); cursor: crosshair;"></canvas>
                 </div>
-                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                <div style="display: flex; justify-content: center; gap: 10px; margin: 8px 0;">
                     <button class="action-button" onclick="clearLetterCanvas()">🗑️ נקה</button>
                     <button class="action-button" onclick="nextLetter()">➡️ אות הבאה</button>
                     <button class="action-button" onclick="previousLetter()">⬅️ אות קודמת</button>
                 </div>
-                <div id="letterNavigation" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto;"></div>
+                <div id="letterNavigation" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; max-width: 800px; margin-left: auto; margin-right: auto;"></div>
             </div>
 
             <div id="letterMatchMode" class="sub-game-mode" style="display: none;">
@@ -2912,7 +2956,7 @@
                 { icon: '🍊🍊🍊🍊🍊🍊', label: 'שישה תפוזים', count: 6 },
                 { icon: '🎈🎈🎈🎈🎈🎈🎈', label: 'שבעה בלונים', count: 7 },
                 { icon: '🍋🍋🍋🍋🍋🍋🍋🍋', label: 'שמונה לימונים', count: 8 },
-                { icon: '🔷🔷🔷🔷🔷🔷🔷🔷🔷', label: 'תשעה יהלומים', count: 9 },
+                { icon: '⚽⚽⚽⚽⚽⚽⚽⚽⚽', label: 'תשעה כדורים', count: 9 },
                 { icon: '🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟', label: 'עשרה כוכבים', count: 10 }
             ];
 
@@ -2928,7 +2972,7 @@
             const container = document.getElementById('matchingItems');
             container.innerHTML = `
                 <div class="matching-item">
-                    <div class="item-icon">${currentMatchingQuestion.icon}</div>
+                    <div class="item-icon" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; line-height: 1.2;">${currentMatchingQuestion.icon}</div>
                     <div class="item-label">${currentMatchingQuestion.label}</div>
                 </div>
             `;
@@ -3966,7 +4010,7 @@
             writeCtx.fillRect(0, 0, writeCanvas.width, writeCanvas.height);
 
             // Draw dotted letter outline as template
-            writeCtx.font = 'bold 400px Arial';
+            writeCtx.font = 'bold 240px Arial';
             writeCtx.textAlign = 'center';
             writeCtx.textBaseline = 'middle';
             writeCtx.lineWidth = 3;
