@@ -1474,6 +1474,7 @@
                 display: flex;
                 justify-content: center;
                 flex-wrap: wrap;
+                direction: ltr;
             }
 
             .sequence-box {
@@ -2192,7 +2193,7 @@
                 <div class="game-header">
                     <h3 style="font-size: 2em; color: #667eea;">מצאו את המספר החסר</h3>
                 </div>
-                <div id="sequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 15px 0; flex-wrap: wrap;"></div>
+                <div id="sequenceDisplay" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 15px 0; flex-wrap: wrap; direction: ltr;"></div>
                 <div id="sequenceOptions" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px;"></div>
             </div>
 
@@ -3254,6 +3255,8 @@
             touchClone.style.zIndex = '10000';
             touchClone.style.opacity = '0.8';
             touchClone.style.transform = 'scale(1.1)';
+            touchClone.style.width = touchDragElement.offsetWidth + 'px';
+            touchClone.style.height = touchDragElement.offsetHeight + 'px';
             touchClone.style.left = touch.clientX - touchDragElement.offsetWidth / 2 + 'px';
             touchClone.style.top = touch.clientY - touchDragElement.offsetHeight / 2 + 'px';
             document.body.appendChild(touchClone);
@@ -3307,7 +3310,12 @@
                 } else if (dropZone.id === 'dragNumberTarget') {
                     checkNumberAnswer(parseInt(dataType), dropZone);
                 } else if (dropZone.classList.contains('sequence-box')) {
-                    checkSequenceAnswer(parseInt(dataType), dropZone);
+                    // בדוק אם זה מספר או אות
+                    if (touchDragElement.dataset.number) {
+                        checkSequenceAnswer(parseInt(dataType), dropZone);
+                    } else if (touchDragElement.dataset.letter) {
+                        checkLetterSequenceAnswer(dataType, dropZone);
+                    }
                 }
             }
 
@@ -3358,6 +3366,139 @@
                 speakText('נסו שוב');
                 setTimeout(() => target.classList.remove('incorrect'), 500);
             }
+        }
+
+        function checkLetterSequenceAnswer(letter, target) {
+            if (letter === currentLetterSequence.missing) {
+                target.textContent = letter;
+                target.classList.remove('empty');
+                target.style.background = '#4CAF50';
+                target.style.color = 'white';
+                speakText('מעולה!');
+
+                // הסתר את האופציה
+                const option = document.querySelector(`.sequence-option[data-letter="${letter}"]`);
+                if (option) option.style.opacity = '0';
+
+                setTimeout(() => generateLetterSequence(), 2000);
+            } else {
+                target.classList.add('incorrect');
+                speakText('נסו שוב');
+                setTimeout(() => target.classList.remove('incorrect'), 500);
+            }
+        }
+
+        // Number Sort Game - Mobile Touch Handlers
+        let sortTouchStartX, sortTouchStartY;
+        let sortTouchElement = null;
+        let sortClone = null;
+
+        function handleSortTouchStart(e) {
+            e.preventDefault();
+            sortTouchElement = e.currentTarget;
+            const touch = e.touches[0];
+            sortTouchStartX = touch.clientX;
+            sortTouchStartY = touch.clientY;
+
+            // צור עותק של האלמנט שיזוז עם האצבע
+            sortClone = sortTouchElement.cloneNode(true);
+            sortClone.style.position = 'fixed';
+            sortClone.style.zIndex = '10000';
+            sortClone.style.pointerEvents = 'none';
+            sortClone.style.opacity = '0.8';
+            sortClone.style.transform = 'scale(1.1)';
+            sortClone.style.width = sortTouchElement.offsetWidth + 'px';
+            sortClone.style.height = sortTouchElement.offsetHeight + 'px';
+            sortClone.style.left = (touch.clientX - sortTouchElement.offsetWidth / 2) + 'px';
+            sortClone.style.top = (touch.clientY - sortTouchElement.offsetHeight / 2) + 'px';
+            document.body.appendChild(sortClone);
+
+            // הפוך את המקור לשקוף
+            sortTouchElement.style.opacity = '0.3';
+        }
+
+        function handleSortTouchMove(e) {
+            e.preventDefault();
+            if (!sortClone) return;
+
+            const touch = e.touches[0];
+            // הזז את העותק עם האצבע
+            sortClone.style.left = (touch.clientX - sortClone.offsetWidth / 2) + 'px';
+            sortClone.style.top = (touch.clientY - sortClone.offsetHeight / 2) + 'px';
+
+            // מצא את האלמנט שמתחת למגע
+            const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropZone = elemBelow?.closest('.sort-slot');
+
+            // הסר הדגשה מכל אזורי הזריקה
+            document.querySelectorAll('.sort-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+            // הוסף הדגשה לאזור הזריקה הנוכחי
+            if (dropZone && !dropZone.classList.contains('filled')) {
+                dropZone.classList.add('drag-over');
+            }
+        }
+
+        function handleSortTouchEnd(e) {
+            if (!sortTouchElement) return;
+            e.preventDefault();
+
+            // מחק את העותק שזז
+            if (sortClone) {
+                sortClone.remove();
+                sortClone = null;
+            }
+
+            sortTouchElement.style.opacity = '1';
+            const touch = e.changedTouches[0];
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.sort-slot');
+
+            // הסר הדגשה
+            document.querySelectorAll('.sort-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+            if (dropTarget && !dropTarget.classList.contains('filled')) {
+                const number = parseInt(sortTouchElement.dataset.number);
+                const slotIndex = parseInt(dropTarget.dataset.index);
+                const expectedNumber = correctOrder[slotIndex];
+
+                dropTarget.textContent = number;
+                dropTarget.dataset.number = number;
+                dropTarget.classList.add('filled');
+
+                // בדוק אם המספר נמצא במקום הנכון
+                if (number === expectedNumber) {
+                    // נכון! הצג ירוק
+                    dropTarget.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                    speakText('נכון!');
+                    sortTouchElement.remove();
+                    checkSortComplete();
+                } else {
+                    // לא נכון! הצג אדום והחזר
+                    dropTarget.style.background = 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)';
+                    speakText('לא נכון');
+
+                    const elementToReturn = sortTouchElement;
+                    const originalIndex = parseInt(elementToReturn.dataset.originalIndex);
+                    setTimeout(() => {
+                        dropTarget.textContent = '';
+                        dropTarget.dataset.number = '';
+                        dropTarget.classList.remove('filled');
+                        dropTarget.style.background = '';
+
+                        // החזר את המספר למקום המקורי שלו
+                        const unsortedDiv = document.getElementById('unsortedNumbers');
+                        const children = Array.from(unsortedDiv.children);
+
+                        if (originalIndex >= children.length) {
+                            unsortedDiv.appendChild(elementToReturn);
+                        } else {
+                            unsortedDiv.insertBefore(elementToReturn, children[originalIndex]);
+                        }
+                    }, 800);
+                }
+            }
+
+            sortTouchElement = null;
         }
 
         // Number Games
@@ -3712,8 +3853,14 @@
                 option.draggable = true;
                 option.dataset.letter = letter;
 
+                // Desktop drag events
                 option.addEventListener('dragstart', handleSequenceDragStart);
                 option.addEventListener('dragend', handleDragEnd);
+
+                // Mobile touch events
+                option.addEventListener('touchstart', handleTouchStart, { passive: false });
+                option.addEventListener('touchmove', handleTouchMove, { passive: false });
+                option.addEventListener('touchend', handleTouchEnd, { passive: false });
 
                 optionsContainer.appendChild(option);
             });
@@ -4305,9 +4452,9 @@
                 numEl.addEventListener('dragend', handleDragEnd);
 
                 // תמיכה במובייל
-                numEl.addEventListener('touchstart', handleTouchStart);
-                numEl.addEventListener('touchmove', handleTouchMove);
-                numEl.addEventListener('touchend', handleTouchEnd);
+                numEl.addEventListener('touchstart', handleSortTouchStart, { passive: false });
+                numEl.addEventListener('touchmove', handleSortTouchMove, { passive: false });
+                numEl.addEventListener('touchend', handleSortTouchEnd, { passive: false });
 
                 unsortedDiv.appendChild(numEl);
             });
@@ -4394,102 +4541,6 @@
                     }, 800);
                 }
             }
-        }
-
-        // תמיכה במובייל
-        let sortTouchStartX, sortTouchStartY;
-        let sortTouchElement = null;
-        let sortClone = null;
-
-        function handleTouchStart(e) {
-            sortTouchElement = e.target;
-            const touch = e.touches[0];
-            sortTouchStartX = touch.clientX;
-            sortTouchStartY = touch.clientY;
-
-            // צור עותק של האלמנט שיזוז עם האצבע
-            sortClone = sortTouchElement.cloneNode(true);
-            sortClone.style.position = 'fixed';
-            sortClone.style.zIndex = '1000';
-            sortClone.style.pointerEvents = 'none';
-            sortClone.style.opacity = '0.8';
-            sortClone.style.transform = 'scale(1.1)';
-            sortClone.style.width = sortTouchElement.offsetWidth + 'px';
-            sortClone.style.height = sortTouchElement.offsetHeight + 'px';
-            sortClone.style.left = (touch.clientX - sortTouchElement.offsetWidth / 2) + 'px';
-            sortClone.style.top = (touch.clientY - sortTouchElement.offsetHeight / 2) + 'px';
-            document.body.appendChild(sortClone);
-
-            // הפוך את המקור לשקוף
-            sortTouchElement.style.opacity = '0.3';
-        }
-
-        function handleTouchMove(e) {
-            e.preventDefault();
-            if (!sortClone) return;
-
-            const touch = e.touches[0];
-            // הזז את העותק עם האצבע
-            sortClone.style.left = (touch.clientX - sortClone.offsetWidth / 2) + 'px';
-            sortClone.style.top = (touch.clientY - sortClone.offsetHeight / 2) + 'px';
-        }
-
-        function handleTouchEnd(e) {
-            if (!sortTouchElement) return;
-
-            // מחק את העותק שזז
-            if (sortClone) {
-                sortClone.remove();
-                sortClone = null;
-            }
-
-            sortTouchElement.style.opacity = '1';
-            const touch = e.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-
-            if (dropTarget && dropTarget.classList.contains('sort-slot') && !dropTarget.classList.contains('filled')) {
-                const number = parseInt(sortTouchElement.dataset.number);
-                const slotIndex = parseInt(dropTarget.dataset.index);
-                const expectedNumber = correctOrder[slotIndex];
-
-                dropTarget.textContent = number;
-                dropTarget.dataset.number = number;
-                dropTarget.classList.add('filled');
-
-                // בדוק אם המספר נמצא במקום הנכון
-                if (number === expectedNumber) {
-                    // נכון! הצג ירוק
-                    dropTarget.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-                    speakText('נכון!');
-                    sortTouchElement.remove();
-                    checkSortComplete();
-                } else {
-                    // לא נכון! הצג אדום והחזר
-                    dropTarget.style.background = 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)';
-                    speakText('לא נכון');
-
-                    const elementToReturn = sortTouchElement;
-                    const originalIndex = parseInt(elementToReturn.dataset.originalIndex);
-                    setTimeout(() => {
-                        dropTarget.textContent = '';
-                        dropTarget.dataset.number = '';
-                        dropTarget.classList.remove('filled');
-                        dropTarget.style.background = '';
-
-                        // החזר את המספר למקום המקורי שלו
-                        const unsortedDiv = document.getElementById('unsortedNumbers');
-                        const children = Array.from(unsortedDiv.children);
-
-                        if (originalIndex >= children.length) {
-                            unsortedDiv.appendChild(elementToReturn);
-                        } else {
-                            unsortedDiv.insertBefore(elementToReturn, children[originalIndex]);
-                        }
-                    }, 800);
-                }
-            }
-
-            sortTouchElement = null;
         }
 
         function checkSortComplete() {
