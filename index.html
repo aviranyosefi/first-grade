@@ -2312,7 +2312,6 @@
             if (soundEnabled) {
                 btn.classList.remove('muted');
                 btn.textContent = '🔊';
-                speakText('השמעת שמע פועלת');
             } else {
                 btn.classList.add('muted');
                 btn.textContent = '🔇';
@@ -2382,89 +2381,18 @@
             }
         }
 
-        // Text to Speech - קריינות בעברית עם Web Speech API
-        let voicesLoaded = false;
-        let availableVoices = [];
-        let isSpeaking = false;
-        let speechInitialized = false;
-        let speechRetryCount = 0;
-        const MAX_SPEECH_RETRIES = 1;
-
-        // טען קולות בהתחלה ובכל פעם שמתעדכנים
-        function loadVoices() {
-            return new Promise((resolve) => {
-                availableVoices = speechSynthesis.getVoices();
-                if (availableVoices.length > 0) {
-                    voicesLoaded = true;
-                    console.log('Voices loaded:', availableVoices.length);
-                    resolve(availableVoices);
-                } else {
-                    // אם אין קולות, נסה שוב אחרי 100ms
-                    setTimeout(() => {
-                        availableVoices = speechSynthesis.getVoices();
-                        if (availableVoices.length > 0) {
-                            voicesLoaded = true;
-                            console.log('Voices loaded (delayed):', availableVoices.length);
-                        }
-                        resolve(availableVoices);
-                    }, 100);
-                }
-            });
-        }
-
-        // אתחל את מערכת הקול בהקשה הראשונה (נדרש לכרום ואנדרואיד)
-        function initializeSpeech() {
-            if (speechInitialized) return;
-
-            speechSynthesis.cancel();
-            speechSynthesis.resume();
-            speechInitialized = true;
-            console.log('Speech initialized by user interaction');
-        }
-
-        // טען קולות כשהדף נטען ובכל פעם שהם משתנים
-        if ('speechSynthesis' in window) {
-            // Chrome צריך את זה
-            if (speechSynthesis.onvoiceschanged !== undefined) {
-                speechSynthesis.onvoiceschanged = loadVoices;
-            }
-
-            // טען מיד
-            loadVoices();
-
-            // טען שוב אחרי שהדף נטען (לכרום ואנדרואיד)
-            window.addEventListener('load', () => {
-                setTimeout(loadVoices, 100);
-            });
-
-            // אתחל את הקול בהקשה הראשונה של המשתמש (נדרש לכרום)
-            document.addEventListener('click', initializeSpeech, { once: true });
-            document.addEventListener('touchstart', initializeSpeech, { once: true });
-        }
-
+        // Text to Speech - קריינות בעברית עם Google TTS
         function speakText(text) {
             // בדוק אם השמע מופעל
             if (!soundEnabled) {
                 return;
             }
 
-            // בדוק אם יש תמיכה ב-Speech Synthesis
-            if (!('speechSynthesis' in window)) {
-                console.warn('Speech Synthesis לא נתמך בדפדפן זה');
-                return;
-            }
-
-            // מנע דיבור כפול - אסור לנסות לדבר אם כבר מדברים
-            if (isSpeaking) {
-                console.log('Already speaking, ignoring request');
-                return;
-            }
-
-            // איפוס מונה הניסיונות
-            speechRetryCount = 0;
-
             // עצור את כל ההשמעות הקודמות
-            speechSynthesis.cancel();
+            if (window.currentAudio) {
+                window.currentAudio.pause();
+                window.currentAudio = null;
+            }
 
             // הוסף אפקט ויזואלי בזמן הדיבור
             const element = event?.currentTarget;
@@ -2475,85 +2403,41 @@
                 }, 300);
             }
 
-            // פונקציה לביצוע הדיבור
-            async function performSpeak() {
-                // ודא שהקולות נטענו
-                if (!voicesLoaded || availableVoices.length === 0) {
-                    await loadVoices();
-                }
+            // השתמש ב-Google Translate TTS API לקריינות עברית
+            const encodedText = encodeURIComponent(text);
+            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=he&client=tw-ob&q=${encodedText}`;
 
-                const utterance = new SpeechSynthesisUtterance(text);
+            const audio = new Audio(audioUrl);
+            audio.volume = 1.0;
+            audio.playbackRate = 0.9;
 
-                // חפש קול עברי
-                let hebrewVoice = availableVoices.find(voice =>
-                    voice.lang.includes('he') || voice.lang.includes('iw')
-                );
+            window.currentAudio = audio;
 
-                // אם לא מצאנו קול עברי, נסה שוב לטעון
-                if (!hebrewVoice && availableVoices.length === 0) {
-                    await loadVoices();
-                    hebrewVoice = availableVoices.find(voice =>
-                        voice.lang.includes('he') || voice.lang.includes('iw')
-                    );
-                }
+            audio.play().catch(error => {
+                console.log('שגיאה בהשמעת שמע:', error);
+                // אם Google TTS לא עובד, נסה Text-to-Speech רגיל
+                fallbackSpeak(text);
+            });
+        }
 
-                if (hebrewVoice) {
-                    utterance.voice = hebrewVoice;
-                    console.log('Using Hebrew voice:', hebrewVoice.name);
-                } else {
-                    console.log('No Hebrew voice found, using default');
-                }
+        // גיבוי למקרה שה-API לא עובד
+        function fallbackSpeak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = speechSynthesis.getVoices();
+            const hebrewVoice = voices.find(voice =>
+                voice.lang.includes('he') || voice.lang.includes('iw')
+            );
 
-                utterance.lang = 'he-IL';
-                utterance.rate = 0.8;
-                utterance.pitch = 1.2;
-                utterance.volume = 1.0;
-
-                // Event listeners לטיפול בשגיאות
-                utterance.onstart = () => {
-                    isSpeaking = true;
-                    console.log('Speech started');
-                };
-
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    speechRetryCount = 0;
-                    console.log('Speech ended');
-                };
-
-                utterance.onerror = (event) => {
-                    console.error('Speech error:', event.error);
-                    isSpeaking = false;
-
-                    // מניעת לופ אינסופי - נסה שוב רק פעם אחת ורק אם לא ניסינו כבר
-                    if (speechRetryCount < MAX_SPEECH_RETRIES &&
-                        (event.error === 'not-allowed' || event.error === 'canceled')) {
-                        speechRetryCount++;
-                        console.log(`Retrying speech (attempt ${speechRetryCount}/${MAX_SPEECH_RETRIES})`);
-                        setTimeout(() => {
-                            if (!isSpeaking) {
-                                speechSynthesis.cancel();
-                                speechSynthesis.speak(utterance);
-                            }
-                        }, 100);
-                    } else {
-                        speechRetryCount = 0;
-                        console.log('Speech retry limit reached or permanent error');
-                    }
-                };
-
-                // דבר!
-                try {
-                    speechSynthesis.speak(utterance);
-                } catch (error) {
-                    console.error('Speech failed:', error);
-                    isSpeaking = false;
-                    speechRetryCount = 0;
-                }
+            if (hebrewVoice) {
+                utterance.voice = hebrewVoice;
             }
 
-            // הפעל את הדיבור
-            performSpeak();
+            utterance.lang = 'he-IL';
+            utterance.rate = 0.8;
+            utterance.pitch = 1.2;
+            utterance.volume = 1.0;
+
+            speechSynthesis.speak(utterance);
         }
 
         // Coloring Page
