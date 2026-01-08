@@ -4399,21 +4399,49 @@
         // תמיכה במובייל
         let sortTouchStartX, sortTouchStartY;
         let sortTouchElement = null;
+        let sortClone = null;
 
         function handleTouchStart(e) {
             sortTouchElement = e.target;
             const touch = e.touches[0];
             sortTouchStartX = touch.clientX;
             sortTouchStartY = touch.clientY;
-            sortTouchElement.style.opacity = '0.5';
+
+            // צור עותק של האלמנט שיזוז עם האצבע
+            sortClone = sortTouchElement.cloneNode(true);
+            sortClone.style.position = 'fixed';
+            sortClone.style.zIndex = '1000';
+            sortClone.style.pointerEvents = 'none';
+            sortClone.style.opacity = '0.8';
+            sortClone.style.transform = 'scale(1.1)';
+            sortClone.style.width = sortTouchElement.offsetWidth + 'px';
+            sortClone.style.height = sortTouchElement.offsetHeight + 'px';
+            sortClone.style.left = (touch.clientX - sortTouchElement.offsetWidth / 2) + 'px';
+            sortClone.style.top = (touch.clientY - sortTouchElement.offsetHeight / 2) + 'px';
+            document.body.appendChild(sortClone);
+
+            // הפוך את המקור לשקוף
+            sortTouchElement.style.opacity = '0.3';
         }
 
         function handleTouchMove(e) {
             e.preventDefault();
+            if (!sortClone) return;
+
+            const touch = e.touches[0];
+            // הזז את העותק עם האצבע
+            sortClone.style.left = (touch.clientX - sortClone.offsetWidth / 2) + 'px';
+            sortClone.style.top = (touch.clientY - sortClone.offsetHeight / 2) + 'px';
         }
 
         function handleTouchEnd(e) {
             if (!sortTouchElement) return;
+
+            // מחק את העותק שזז
+            if (sortClone) {
+                sortClone.remove();
+                sortClone = null;
+            }
 
             sortTouchElement.style.opacity = '1';
             const touch = e.changedTouches[0];
